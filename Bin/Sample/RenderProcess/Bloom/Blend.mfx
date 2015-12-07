@@ -1,0 +1,54 @@
+Pass
+{
+	State
+	{
+		CullMode NONE
+		DepthCheck NONE
+		BlendMode ADD
+	}
+	
+	Attribute
+	{
+		i_Position POSITION
+		i_Texcoord TEXCOORD0
+	}
+	
+	Uniform
+	{
+		u_Density FLOAT4
+	}
+	
+	Sampler
+	{
+	}
+	
+	VertexShader {
+		attribute float4 i_Position;
+		attribute float2 i_Texcoord;
+
+		varying float2 o_uv;
+
+		void main()
+		{
+			gl_Position = float4(i_Position.xy, 0, 1);
+			o_uv = i_Texcoord;
+		}
+	}
+	
+	PixelShader {
+		precision highp float;
+		precision mediump int;
+
+		varying float2 o_uv;
+
+		uniform float4 u_Density;
+		uniform sampler2D u_BaseMap;
+
+		void main()
+		{
+			float4 color = texture2D(u_BaseMap, o_uv);
+
+			gl_FragColor = color * u_Density.x;
+		}
+	}
+}

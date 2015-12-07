@@ -1,0 +1,22 @@
+<Layout lookfeel="EditorBlack">
+	<Name value="Root"/>
+	<Rect value="0 0 532 27"/>
+	<Child type="Label" lookfeel="EditorBlack">
+		<Name value="Widget"/>
+		<Rect value="0 0 81 27"/>
+		<Caption value="Rotation:"/>
+	</Child>
+	<Child type="EditBox" lookfeel="MainEditBox">
+		<Name value="x"/>
+		<Rect value="90 0 128 27"/>
+	</Child>
+	<Child type="EditBox" lookfeel="MainEditBox">
+		<Name value="y"/>
+		<Rect value="220 0 128 27"/>
+	</Child>
+	<Child type="EditBox" lookfeel="MainEditBox">
+		<Name value="z"/>
+		<Rect value="350 0 128 27"/>
+	</Child>
+</Layout>
+

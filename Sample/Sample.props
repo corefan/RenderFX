@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <IntDir>..\..\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>../../SDK.Win32/include;../Framework;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>../../SDK.Win32/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>MCore.lib;MPhysics.lib;MGui.lib;MParticleFX.lib;GLRenderSystem.lib;ALAudioSystem.lib;DI8InputSystem.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>../../bin/$(Configuration)/$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>
+      </GenerateDebugInformation>
+    </Link>
+    <PreBuildEvent>
+      <Command>../CopyDll</Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>

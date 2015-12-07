@@ -1,0 +1,35 @@
+<Layout>
+	<Name value="Root"/>
+	<Rect value="0 0 48 527"/>
+	<Child type="Widget" lookfeel="MainPanel">
+		<Name value="Background"/>
+		<Rect value="0 0 48 527"/>
+		<Align value="144"/>
+	</Child>
+	<Child type="Widget" lookfeel="Pick">
+		<Name value="Pick"/>
+		<Rect value="8 7 31 32"/>
+		<Align value="1"/>
+	</Child>
+	<Child type="Widget" lookfeel="Move">
+		<Name value="Move"/>
+		<Rect value="9 45 30 31"/>
+		<Align value="1"/>
+	</Child>
+	<Child type="Widget" lookfeel="Rotate">
+		<Name value="Rotate"/>
+		<Rect value="10 82 28 31"/>
+		<Align value="1"/>
+	</Child>
+	<Child type="Widget" lookfeel="Scale">
+		<Name value="Scale"/>
+		<Rect value="8 121 32 32"/>
+		<Align value="1"/>
+	</Child>
+	<Child type="Widget" lookfeel="Terrain">
+		<Name value="Terrain"/>
+		<Rect value="8 163 32 32"/>
+		<Align value="1"/>
+	</Child>
+</Layout>
+

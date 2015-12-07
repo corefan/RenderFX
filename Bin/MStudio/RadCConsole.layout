@@ -1,0 +1,26 @@
+<Layout lookfeel="MainPanel">
+	<Name value="Root"/>
+	<Rect value="0 0 633 400"/>
+	<Child type="Button" lookfeel="Close">
+		<Name value="Close"/>
+		<Rect value="602 0 20 20"/>
+	</Child>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="ErrorList"/>
+		<Rect value="0 31 621 357"/>
+		<Align value="16"/>
+	</Child>
+	<Child type="Label" lookfeel="EditorBlack">
+		<Name value="Widget"/>
+		<Rect value="246.5 0 128 27"/>
+		<Align value="1"/>
+		<Caption value="RadC-Console"/>
+		<TextAlign value="1"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Clear"/>
+		<Rect value="507 0 88 28"/>
+		<Caption value="Clear"/>
+	</Child>
+</Layout>
+

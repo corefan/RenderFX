@@ -1,0 +1,61 @@
+Pass
+{
+	State
+	{
+		CullMode		BACK
+		DepthMode		LESS_EQUAL
+		BlendMode		OPACITY
+	}
+	
+	Uniform
+	{
+		u_XZTransform	FLOAT4
+		
+		u_WVP			WORLD_VIEW_PROJ_MATRIX
+		u_View			VIEW_MATRIX
+		u_ClipPlane		CLIP_PLANE
+	}
+	
+	Attribute
+	{
+		i_XZ			POSITION
+		i_NormalHeight	NORMAL
+	}
+	
+	VertexShader {
+		uniform mat4 u_WVP;
+		uniform mat4 u_View;
+
+		uniform float4 u_XZTransform;
+		uniform float4 u_ClipPlane;
+
+		attribute float2 i_XZ;
+		attribute float4 i_NormalHeight;
+
+		varying float4 o_normal_depth;
+
+		void main()
+		{
+			float2 xz = i_XZ.xy * u_XZTransform.w + u_XZTransform.xy;
+
+			float4 position = float4(xz.x, i_NormalHeight.w, xz.y, 1.0);
+			float3 normal = transform3(i_NormalHeight.xyz, u_View);
+
+			// 
+			gl_Position = transform4(position, u_WVP);
+			o_normal_depth.xyz = normal * 0.5 + 0.5;
+			o_normal_depth.a = gl_Position.w * u_ClipPlane.w;
+		}
+	}
+	
+	PixelShader {
+		
+		varying float4 o_normal_depth;
+
+		void main()
+		{
+			gl_FragData[0] = float4(o_normal_depth.rgb, 1);
+			gl_FragData[1] = o_normal_depth.aaaa;
+		}
+	}
+}

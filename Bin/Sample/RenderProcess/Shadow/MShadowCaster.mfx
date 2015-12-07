@@ -1,0 +1,141 @@
+Pass
+{
+	State
+	{
+		CullMode INHERIT
+		DepthMode LESS_EQUAL
+		BlendMode OPACITY
+	}
+	
+	Uniform
+	{
+		u_World 			WORLD_MATRIX
+		u_BoneTM			BONE_MATRIX
+		u_ViewProj			VIEW_PROJ_MATRIX
+		
+		u_ShaderState		SHADER_STATE
+	}
+	
+	Attribute
+	{
+		i_Position			POSITION
+		i_Texcoord 			TEXCOORD0
+		i_BoneIndex			BONE_INDEX
+		i_BoneWeight 		BONE_WEIGHT
+	}
+	
+	Sampler
+	{
+		Index 				0 
+		BindType 			DIFFUSE
+		Filter 				DEFAULT
+		Address 			WRAP
+		BorderColor 		0 0 0 0
+	}
+	
+	VertexShader {
+		uniform mat4 u_World;
+		uniform float4 u_BoneTM[35 * 3];
+		uniform mat4 u_ViewProj;
+
+		attribute float4 i_Position;
+		attribute float4 i_Texcoord;
+		attribute float4 i_BoneIndex;
+		attribute float4 i_BoneWeight;
+
+		varying float2 o_uv;
+		varying float o_depth;
+
+		void doHwSkin(out float4 position)
+		{
+			int i0 = int(i_BoneIndex.x) * 3;
+			int i1 = int(i_BoneIndex.y) * 3;
+			int i2 = int(i_BoneIndex.z) * 3;
+			int i3 = int(i_BoneIndex.w) * 3;
+
+			float4 w = i_BoneWeight;
+	
+			float4 m[3];
+			m[0] = u_BoneTM[i0 + 0] * w.x + u_BoneTM[i1 + 0] * w.y + u_BoneTM[i2 + 0] * w.z + u_BoneTM[i3 + 0] * w.w;
+			m[1] = u_BoneTM[i0 + 1] * w.x + u_BoneTM[i1 + 1] * w.y + u_BoneTM[i2 + 1] * w.z + u_BoneTM[i3 + 1] * w.w;
+			m[2] = u_BoneTM[i0 + 2] * w.x + u_BoneTM[i1 + 2] * w.y + u_BoneTM[i2 + 2] * w.z + u_BoneTM[i3 + 2] * w.w;
+
+			float4 p;
+			p.x = dot(i_Position, m[0]);
+			p.y = dot(i_Position, m[1]);
+			p.z = dot(i_Position, m[2]);
+			p.w = 1.0;
+
+			position = p;
+		}
+
+		mat3 mat4_to_mat3(mat4 m)
+		{
+			return mat3(
+				m[0].x, m[0].y, m[0].z,
+				m[1].x, m[1].y, m[1].z,
+				m[2].x, m[2].y, m[2].z
+			);
+		}
+
+		void main()
+		{
+			float4 position;
+
+		#ifdef D_SKINED
+			doHwSkin(position);
+		#else
+			position = u_World * i_Position;
+		#endif
+
+			//
+			gl_Position = u_ViewProj * position;
+			o_uv = i_Texcoord.xy;
+
+			//
+		#ifdef D_OGL
+			o_depth = (gl_Position.z / gl_Position.w + 1.0) * 0.5;
+		#else
+			o_depth = gl_Position.z / gl_Position.w;
+		#endif
+
+			o_depth = clamp(o_depth, 0.0, 1.0);
+		}
+	}
+	
+	PixelShader {
+		precision highp float;
+		precision mediump int;
+
+		varying float2 o_uv;
+		varying float o_depth;
+		
+		uniform float4 u_ShaderState;
+		uniform sampler2D u_baseMap;
+
+		float4 pack_depth(float depth)
+		{
+			float d = depth * 32767.0;
+
+			float r = floor(d / 1024.0);
+			float g = floor((d - r * 1024.0) / 32.0);
+			float b = d - r * 1024.0 - g * 32.0;
+
+			return float4(r / 31.0, g / 31.0, b / 31.0, 1.0);
+		}
+
+		void main()
+		{
+			float4 baseColor = tex2D(u_baseMap, o_uv);
+
+			// Alpha Test
+			if (u_ShaderState.x > 0.5)
+			{
+				if (baseColor.a < 0.5)
+					discard;
+			}
+
+			gl_FragColor = pack_depth(o_depth);
+		}
+	}
+}

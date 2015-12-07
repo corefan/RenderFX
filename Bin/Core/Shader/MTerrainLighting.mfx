@@ -1,0 +1,203 @@
+Pass
+{
+	State
+	{
+		CullMode			BACK
+		DepthMode			N_LESS_EQUAL
+		BlendMode			ADD
+	}
+	
+	Uniform
+	{
+		u_XZTransform		FLOAT4
+		u_UVScale			FLOAT4
+		
+		u_WVP				WORLD_VIEW_PROJ_MATRIX
+
+		u_LightPos			LIGHT_POSITION
+		u_LightDir			LIGHT_DIRECTION
+		u_LightAttenParam	LIGHT_ATTEN_PARAM
+		u_LightSpotParam	LIGHT_SPOT_PARAM
+
+		u_Diffuse			DIFFUSE
+	}
+	
+	Attribute
+	{
+		i_XZ				POSITION
+		i_UV				TEXCOORD0
+		i_NormalHeight		NORMAL
+	}
+	
+	Sampler
+	{
+		Name s_blend
+		BindType DIFFUSE
+		Address CLAMP
+	}
+	
+	Sampler
+	{
+		Name s_detail1
+		BindType EXTERN0
+	}
+	
+	Sampler
+	{
+		Name s_detail2
+		BindType EXTERN1
+	}
+	
+	Sampler
+	{
+		Name s_detail3
+		BindType EXTERN2
+	}
+	
+	Sampler
+	{
+		Name s_detail4
+		BindType EXTERN3
+	}
+	
+	VertexShader {
+		uniform mat4 u_WVP;
+
+		uniform float4 u_XZTransform;
+		uniform float4 u_UVScale;
+
+		uniform float4 u_LightPos;
+		uniform float4 u_LightDir;
+		uniform float4 u_LightAttenParam;
+		uniform float4 u_LightSpotParam;
+
+		uniform float4 u_Diffuse;
+
+		attribute float2 i_XZ;
+		attribute float2 i_UV;
+		attribute float4 i_NormalHeight;
+
+		varying float2 o_blendUV;
+		varying float2 o_detailUV1;
+		varying float2 o_detailUV2;
+		varying float2 o_detailUV3;
+		varying float2 o_detailUV4;
+		varying float4 o_color;
+
+		void main()
+		{
+			float2 xz = i_XZ.xy * u_XZTransform.w + u_XZTransform.xy;
+
+			float4 position = float4(xz.x, i_NormalHeight.w, xz.y, 1.0);
+			float3 normal = i_NormalHeight.xyz;
+
+			// transform
+			gl_Position = transform4(position, u_WVP);
+
+			// uv
+			o_blendUV = i_UV;
+
+			float2 flipUV = float2(position.x, -position.z);
+			o_detailUV1 = flipUV * u_UVScale.x;
+			o_detailUV2 = flipUV * u_UVScale.y;
+			o_detailUV3 = flipUV * u_UVScale.z;
+			o_detailUV4 = flipUV * u_UVScale.w;
+
+			// lighting
+			float ka = 1.0, kd = 1.0;
+
+#if defined(DIRECTION)
+			float3 N = normal;
+			float3 L = u_LightDir.xyz;
+
+			kd = max(0.0, dot(N, L));
+
+#elif defined(POINT)
+			float3 lightDir = u_LightPos.xyz - position.xyz;
+			float dist = length(lightDir);
+			
+			float3 N = normal;
+			float3 L = normalize(lightDir);
+			
+			kd = max(0.0, dot(N, L));
+			
+			ka = 1.0 - clamp((dist - u_LightAttenParam.x) * u_LightAttenParam.z, 0.0, 1.0);
+			ka = pow(ka, u_LightAttenParam.w);
+
+#elif defined (SPOT)
+			float3 spotDir = u_LightPos.xyz - position.xyz;
+			float dist = length(spotDir);
+			
+			float3 S = normalize(spotDir);
+			float3 N = normal;
+			float3 L = u_LightDir.xyz;
+			
+			kd = max(0.0, dot(N, L));
+			
+			ka = 1.0 - clamp((dist - u_LightAttenParam.x) * u_LightAttenParam.z, 0.0, 1.0);
+			ka = pow(ka, u_LightAttenParam.w);
+			
+			float ki = max(0.0, dot(S, L));
+			ki = clamp((ki - u_LightSpotParam.x) * u_LightSpotParam.z, 0.0, 1.0);
+			ki = pow(ki, u_LightSpotParam.w);
+
+			kd *= ki;
+#endif 
+			o_color.rgb = ka * kd * u_Diffuse.rgb;
+			o_color.a = 1.0;
+		}
+	}
+	
+	PixelShader {
+		precision lowp float;
+		precision lowp int;
+		
+		varying float2 o_blendUV;
+		varying float2 o_detailUV1;
+		varying float2 o_detailUV2;
+		varying float2 o_detailUV3;
+		varying float2 o_detailUV4;
+		varying float4 o_color;
+		
+		uniform sampler2D s_blend;
+		uniform sampler2D s_detail1;
+		uniform sampler2D s_detail2;
+		uniform sampler2D s_detail3;
+		uniform sampler2D s_detail4;
+
+		void main()
+		{
+		#ifdef D_LAYER1 
+			float4 color = tex2D(s_detail1, o_detailUV1);
+		#endif
+
+		#ifdef D_LAYER2
+			float4 weight = tex2D(s_blend, o_blendUV);
+
+			float4 color = tex2D(s_detail1, o_detailUV1) * weight.r +
+						 tex2D(s_detail2, o_detailUV2) * weight.g;
+		#endif
+
+		#ifdef D_LAYER3
+			float4 weight = tex2D(s_blend, o_blendUV);
+
+			float4 color = tex2D(s_detail1, o_detailUV1) * weight.r +
+						 tex2D(s_detail2, o_detailUV2) * weight.g +
+						 tex2D(s_detail3, o_detailUV3) * weight.b;
+		#endif
+
+		#ifdef D_LAYER4
+			float4 weight = tex2D(s_blend, o_blendUV);
+
+			float4 color = tex2D(s_detail1, o_detailUV1) * weight.r +
+						 tex2D(s_detail2, o_detailUV2) * weight.g +
+						 tex2D(s_detail3, o_detailUV3) * weight.b +
+						 tex2D(s_detail4, o_detailUV4) * weight.a;
+		#endif
+
+			color *= o_color;
+
+			gl_FragColor = color;
+		}
+	}
+}

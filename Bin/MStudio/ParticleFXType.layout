@@ -1,0 +1,24 @@
+<Layout lookfeel="DialogClient">
+	<Name value="Root"/>
+	<Rect value="302 356 400 128"/>
+	<Child type="Label" lookfeel="EditorBlack">
+		<Name value="Widget"/>
+		<Rect value="9 18 86 27"/>
+		<Caption value="TypeName:"/>
+	</Child>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="Type"/>
+		<Rect value="100 18 280 27"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="OK"/>
+		<Rect value="108 69 128 28"/>
+		<Caption value="OK"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Cancel"/>
+		<Rect value="254 69 128 28"/>
+		<Caption value="Cancel"/>
+	</Child>
+</Layout>
+

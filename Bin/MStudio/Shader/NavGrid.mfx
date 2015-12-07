@@ -1,0 +1,44 @@
+Pass
+{
+	State
+	{
+		CullMode NONE
+		DepthMode LESS_EQUAL
+		BlendMode OPACITY
+	}
+	
+	Uniform
+	{
+		u_WVP WORLD_VIEW_PROJ_MATRIX
+	}
+	
+	Attribute
+	{
+		i_Position POSITION
+	}
+	
+	VertexShader {
+		precision highp float;
+		precision mediump int;
+
+		uniform mat4 u_WVP;
+
+		attribute vec4 i_Position;
+
+		void main()
+		{
+			vec4 pos = vec4(i_Position.x, 0, i_Position.y, 1);
+			gl_Position = u_WVP * pos;
+		}
+	}
+	
+	PixelShader {
+		precision highp float;
+		precision mediump int;
+
+		void main()
+		{
+			gl_FragColor = vec4(1, 1, 1, 1);
+		}
+	}
+}

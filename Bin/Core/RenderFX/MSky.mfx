@@ -1,0 +1,74 @@
+Pass
+{
+	State
+	{
+		CullMode NONE
+		DepthMode ALWAYS
+		BlendMode ALPHA_BLEND
+	}
+	
+	Uniform
+	{
+		u_WVP MATRIX4
+
+		u_Param FLOAT4
+		u_InvTexHeight FLOAT1
+	}
+	
+	Attribute
+	{
+		i_Position POSITION
+	}
+	
+	Sampler
+	{
+		Index 				0 
+		BindType 			NONE
+		Filter 				DEFAULT
+		Address 			CLAMP
+		BorderColor 		0 0 0 0
+	}
+	
+	VertexShader {
+		uniform mat4 u_WVP;
+		uniform float4 u_Param; // x: u, y: voff, z: 1 / (1 + voff)
+
+		attribute float4 i_Position;
+
+		varying float3 o_uv;
+
+		void main()
+		{
+			gl_Position = transform4(i_Position, u_WVP);
+
+			o_uv.x = u_Param.x;
+			o_uv.y = 1.0 - clamp((i_Position.y + u_Param.y) * u_Param.z, 0.0, 1.0);
+			o_uv.z = u_Param.w;
+		}
+	}
+	
+	PixelShader {
+		precision highp float;
+		precision mediump int;
+
+		varying float3 o_uv;
+		
+		uniform float u_InvTexHeight;
+		uniform sampler2D u_baseMap;
+
+		void main()
+		{
+			float2 step = float2(0, u_InvTexHeight);
+
+			float4 color = 
+				tex2D(u_baseMap, o_uv.xy + step * 0) * 0.25 +
+				tex2D(u_baseMap, o_uv.xy + step * 1) * 0.25 +
+				tex2D(u_baseMap, o_uv.xy + step * 2) * 0.25 +
+				tex2D(u_baseMap, o_uv.xy + step * 3) * 0.25;
+
+			color.rgb *= o_uv.z;
+
+			gl_FragColor = color;
+		}
+	}
+}

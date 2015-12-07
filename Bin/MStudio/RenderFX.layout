@@ -1,0 +1,55 @@
+<Layout lookfeel="MainPanel" version="1">
+	<Name value="Root"/>
+	<Rect value="0 0 263 694"/>
+	<Child type="Label" lookfeel="EditorBlack">
+		<Name value="Widget"/>
+		<Rect value="0 0 251 28"/>
+		<Align value="16"/>
+		<Caption value="RenderFX"/>
+		<TextAlign value="1"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="CreateOcean"/>
+		<Rect value="0 32 251 28"/>
+		<Align value="16"/>
+		<Caption value="Create Ocean"/>
+	</Child>
+	<Child type="Widget" lookfeel="MainPanel">
+		<Name value="KeyFrames"/>
+		<Rect value="0 61 251 150"/>
+		<Align value="16"/>
+		<Child type="Label" lookfeel="EditorBlack">
+			<Name value="Widget"/>
+			<Rect value="0 0 239 28"/>
+			<Align value="16"/>
+			<Caption value="KeyFrame"/>
+			<TextAlign value="1"/>
+		</Child>
+		<Child type="Label" lookfeel="EditorBlack">
+			<Name value="Widget"/>
+			<Rect value="1 30 72 28"/>
+			<Caption value="Main:"/>
+		</Child>
+		<Child type="Widget" lookfeel="EditorBlack">
+			<Name value="KeyFrame"/>
+			<Rect value="77 30 162 28"/>
+			<Align value="8"/>
+		</Child>
+		<Child type="Label" lookfeel="EditorBlack">
+			<Name value="Widget"/>
+			<Rect value="1 60 72 28"/>
+			<Caption value="Special:"/>
+		</Child>
+		<Child type="Widget" lookfeel="EditorBlack">
+			<Name value="KeyFrameSpecial"/>
+			<Rect value="77 60 162 28"/>
+		</Child>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Save"/>
+		<Rect value="0 214 251 28"/>
+		<Align value="16"/>
+		<Caption value="Save"/>
+	</Child>
+</Layout>
+

@@ -1,0 +1,166 @@
+<LookFeel>
+	<Button name="MainButton" skin="Sample.png" client="5 5 5 5">
+		<NORMAL uv="134 28 32 28"/>
+		<DISABLE uv="134 1 32 28"/>
+		<FOCUS uv="134 55 32 28"/>
+		<PRESS uv="134 82 32 28"/>
+		<SELECT uv="134 0 32 28"/>
+	</Button>
+	<Button name="Back" skin="Sample.png">
+		<NORMAL uv="93 128 16 16"/>
+		<DISABLE uv="93 128 16 16"/>
+		<FOCUS uv="93 144 16 16"/>
+		<PRESS uv="93 160 16 16"/>
+		<SELECT uv="93 128 16 16"/>
+		<SELECT_DISABLE uv="93 128 16 16"/>
+		<SELECT_FOCUS uv="93 128 16 16"/>
+		<SELECT_PRESS uv="93 128 16 16"/>
+	</Button>
+	<Button name="Close" skin="Sample.png">
+		<NORMAL uv="71 19 20 20"/>
+		<DISABLE uv="71 19 20 20"/>
+		<FOCUS uv="71 38 20 20"/>
+		<PRESS uv="71 57 20 20"/>
+		<SELECT uv="71 19 20 20"/>
+		<SELECT_DISABLE uv="71 19 20 20"/>
+		<SELECT_FOCUS uv="71 19 20 20"/>
+		<SELECT_PRESS uv="71 19 20 20"/>
+	</Button>
+	<CheckBox name="PG_Expand" skin="Sample.png">
+		<NORMAL uv="92 194 16 16"/>
+		<DISABLE uv="92 194 16 16"/>
+		<FOCUS uv="92 210 16 16"/>
+		<PRESS uv="92 226 16 16"/>
+		<SELECT uv="93 12 16 16"/>
+		<SELECT_DISABLE uv="93 24 16 16"/>
+		<SELECT_FOCUS uv="93 24 16 16"/>
+		<SELECT_PRESS uv="93 38 16 16"/>
+	</CheckBox>
+	<CheckBox name="MainCheckBox" skin="Sample.png">
+		<NORMAL uv="0 23 24 23"/>
+		<DISABLE uv="0 0 24 23"/>
+		<FOCUS uv="0 45 24 23"/>
+		<PRESS uv="0 45 24 23"/>
+		<SELECT uv="0 111 24 23"/>
+		<SELECT_DISABLE uv="0 89 24 23"/>
+		<SELECT_FOCUS uv="0 133 24 23"/>
+		<SELECT_PRESS uv="0 155 24 23"/>
+	</CheckBox>
+	<EditBox name="MainEditBox" skin="Sample.png" client="5 5 5 5">
+		<NORMAL uv="168 28 30 27"/>
+		<DISABLE uv="168 1 30 27"/>
+		<FOCUS uv="168 55 30 27"/>
+		<PRESS uv="168 136 30 27"/>
+		<SELECT uv="168 136 30 27"/>
+	</EditBox>
+	<EditView name="MainEditView" skin="Sample.png" client="5 5 5 5">
+		<NORMAL uv="168 28 30 27"/>
+		<DISABLE uv="168 1 30 27"/>
+		<FOCUS uv="168 55 30 27"/>
+		<PRESS uv="168 136 30 27"/>
+		<SELECT uv="168 136 30 27"/>
+	</EditView>
+	<ListBox name="MainListBox" skin="Sample.png" client="5 5 7 7">
+		<NORMAL uv="341 1 23 23"/>
+		<DISABLE uv="341 1 23 23"/>
+		<FOCUS uv="341 1 23 23"/>
+		<PRESS uv="341 1 23 23"/>
+		<SELECT uv="341 1 23 23"/>
+		<SELECT_DISABLE uv="341 1 23 23"/>
+		<SELECT_FOCUS uv="341 1 23 23"/>
+		<SELECT_PRESS uv="341 1 23 23"/>
+		<Child name="ListBoxItem" skin="Sample.png" client="2 2 2 2">
+			<NORMAL uv="204 160 42 9"/>
+			<DISABLE uv="204 160 42 9"/>
+			<FOCUS uv="204 174 42 9"/>
+			<PRESS uv="204 188 42 9"/>
+			<SELECT uv="204 188 42 9"/>
+			<SELECT_DISABLE uv="204 160 42 9"/>
+			<SELECT_FOCUS uv="204 160 42 9"/>
+			<SELECT_PRESS uv="204 160 42 9"/>
+		</Child>
+	</ListBox>
+	<Widget name="MainMenu" skin="Sample.png" client="5 5 5 5">
+		<NORMAL uv="202 3 28 25"/>
+		<DISABLE uv="202 3 28 25"/>
+		<FOCUS uv="202 3 28 25"/>
+		<PRESS uv="202 3 28 25"/>
+		<SELECT uv="202 3 28 25"/>
+	</Widget>
+	<Widget name="MainPanel" skin="Sample.png" client="5 5 7 7">
+		<NORMAL uv="341 1 23 23"/>
+		<DISABLE uv="341 1 23 23"/>
+		<FOCUS uv="341 1 23 23"/>
+		<PRESS uv="341 1 23 23"/>
+		<SELECT uv="341 1 23 23"/>
+	</Widget>
+	<Widget name="Pick" skin="MStudio_Pick.png">
+		<NORMAL uv="0 0 31 32"/>
+		<DISABLE uv="0 0 31 32"/>
+		<FOCUS uv="0 0 31 32"/>
+		<PRESS uv="0 0 31 32"/>
+		<SELECT uv="0 0 31 32"/>
+	</Widget>
+	<Widget name="Move" skin="MStudio_Move.png">
+		<NORMAL uv="0 0 30 31"/>
+		<DISABLE uv="0 0 30 31"/>
+		<FOCUS uv="0 0 30 31"/>
+		<PRESS uv="0 0 30 31"/>
+		<SELECT uv="0 0 30 31"/>
+	</Widget>
+	<Widget name="Rotate" skin="MStudio_Rotate.png">
+		<NORMAL uv="0 0 28 31"/>
+		<DISABLE uv="0 0 28 31"/>
+		<FOCUS uv="0 0 28 31"/>
+		<PRESS uv="0 0 28 31"/>
+		<SELECT uv="0 0 28 31"/>
+	</Widget>
+	<Widget name="Scale" skin="MStudio_Scale.png">
+		<NORMAL uv="0 0 32 32"/>
+		<DISABLE uv="0 0 32 32"/>
+		<FOCUS uv="0 0 32 32"/>
+		<PRESS uv="0 0 32 32"/>
+		<SELECT uv="0 0 32 32"/>
+	</Widget>
+	<Widget name="AllWhite" skin="Sample.png">
+		<NORMAL uv="451 3 8 8"/>
+		<DISABLE uv="451 3 8 8"/>
+		<FOCUS uv="451 3 8 8"/>
+		<PRESS uv="451 3 8 8"/>
+		<SELECT uv="451 3 8 8"/>
+		<SELECT_DISABLE uv="451 3 8 8"/>
+		<SELECT_FOCUS uv="451 3 8 8"/>
+		<SELECT_PRESS uv="451 3 8 8"/>
+	</Widget>
+	<Widget name="DialogCaption" skin="Sample.png" client="10 5 35 12">
+		<NORMAL uv="268 104 68 32"/>
+		<DISABLE uv="268 104 68 32"/>
+		<FOCUS uv="268 104 68 32"/>
+		<PRESS uv="268 104 68 32"/>
+		<SELECT uv="268 104 68 32"/>
+		<SELECT_DISABLE uv="268 104 68 32"/>
+		<SELECT_FOCUS uv="268 104 68 32"/>
+		<SELECT_PRESS uv="268 104 68 32"/>
+	</Widget>
+	<Widget name="DialogClient" skin="Sample.png" client="3 3 4 5">
+		<NORMAL uv="296 196 22 22"/>
+		<DISABLE uv="296 196 22 22"/>
+		<FOCUS uv="296 196 22 22"/>
+		<PRESS uv="296 196 22 22"/>
+		<SELECT uv="296 196 22 22"/>
+		<SELECT_DISABLE uv="296 196 22 22"/>
+		<SELECT_FOCUS uv="296 196 22 22"/>
+		<SELECT_PRESS uv="296 196 22 22"/>
+	</Widget>
+	<Widget name="Terrain" skin="MStudio_Terrain.png">
+		<NORMAL uv="0 0 32 32"/>
+		<DISABLE uv="0 0 32 32"/>
+		<FOCUS uv="0 0 32 32"/>
+		<PRESS uv="0 0 32 32"/>
+		<SELECT uv="0 0 32 32"/>
+		<SELECT_DISABLE uv="0 0 32 32"/>
+		<SELECT_FOCUS uv="0 0 32 32"/>
+		<SELECT_PRESS uv="0 0 32 32"/>
+	</Widget>
+</LookFeel>
+

@@ -1,0 +1,108 @@
+rml_version 1.0
+
+Terrain
+{
+	BlocksPerSection 4 4
+	WMapSize 128
+	LMapSize 128
+		
+	Layer
+	{
+		DetailMap Brush_001.png
+		NormalMap
+		UVScale 0.25
+		MaterialId -1
+	}
+	
+	Layer
+	{
+		DetailMap Brush_002.png
+		NormalMap
+		UVScale 0.25
+		MaterialId -1
+	}
+	
+	Layer
+	{
+		DetailMap Brush_003.png
+		NormalMap
+		UVScale 0.25
+		MaterialId -1
+	}
+	
+	Layer
+	{
+		DetailMap Brush_004.png
+		NormalMap
+		UVScale 0.25
+		MaterialId -1
+	}
+	
+	Layer
+	{
+		DetailMap Brush_005.png
+		NormalMap
+		UVScale 0.25
+		MaterialId -1
+	}
+	
+	Layer
+	{
+		DetailMap Brush_006.png
+		NormalMap
+		UVScale 0.25
+		MaterialId -1
+	}
+	
+	Layer
+	{
+		DetailMap Brush_007.png
+		NormalMap
+		UVScale 0.25
+		MaterialId -1
+	}
+	
+	Layer
+	{
+		DetailMap Brush_008.png
+		NormalMap
+		UVScale 0.25
+		MaterialId -1
+	}
+	
+	Layer
+	{
+		DetailMap Brush_009.png
+		NormalMap
+		UVScale 0.25
+		MaterialId -1
+	}
+}
+
+World
+{
+	SectionCount 1 1
+	SectionSize 12800 6400 12800
+	SectionZoneTile 4 1 4
+	SectionZoneDepth 1
+
+	Section 0 0
+	{
+		Data TerrainSection
+		{
+			#Layers 
+		}
+		
+		Data GrassSection
+		{
+			Blocks 4 4
+		
+			Template
+			{
+				Texture grass-1.dds
+				UVTiles 4 4
+				CastAO all
+			}
+		}
+	}
+}

@@ -1,0 +1,185 @@
+Pass
+{
+	State
+	{
+		CullMode NONE
+		DepthMode ALWAYS
+		BlendMode ALPHA_BLEND
+	}
+
+	Uniform
+	{
+		gTranslate FLOAT4
+		gScale FLOAT4
+		matWVP VIEW_PROJ_MATRIX
+
+		gWeight FLOAT4
+		gMass FLOAT1
+		gAlphaParam FLOAT4
+		gUVScale FLOAT4
+		gUVScroll FLOAT4
+
+		gFadeParam FLOAT4
+		gAmbient FLOAT4
+		gDiffuse FLOAT4
+	}
+
+	Attribute
+	{
+		i_Position POSITION
+		i_UV TEXCOORD0
+	}
+	
+	VertexShader {
+		attribute float4 i_Position;
+		attribute float2 i_UV;
+
+		varying float4 o_projPos; 
+		varying float2 o_uv0;
+		varying float2 o_uv1;
+
+		uniform float4 gTranslate;
+		uniform float4 gScale;
+		uniform float4 gUVScale;
+		uniform float4 gUVScroll;
+		uniform mat4 matWVP;
+
+		void main()
+		{
+			i_Position.xyz = i_Position.xyz * gScale.xyz + gTranslate.xyz;
+	
+			gl_Position = matWVP * i_Position;
+			o_projPos = gl_Position;
+			o_uv0 = i_UV * gUVScale.x + gUVScroll.xy;
+			o_uv1 = i_UV * gUVScale.y + gUVScroll.zw;
+		}
+	}
+
+	Sampler
+	{
+		Name gTex_Lighting
+		Index 0
+		BindType NONE
+		Filter LINEAR
+		Address CLAMP
+		BorderColor 0 0 0 0
+	}
+
+	Sampler
+	{
+		Name gTex_Layer1
+		Index 1
+		BindType NONE
+		Filter LINEAR
+		Address WRAP
+		BorderColor 0 0 0 0
+	}
+
+	Sampler
+	{
+		Name gTex_Layer2
+		Index 2
+		BindType NONE
+		Filter LINEAR
+		Address WRAP
+		BorderColor 0 0 0 0
+	}
+
+	Sampler
+	{
+		Name gTex_Layer3
+		Index 3
+		BindType NONE
+		Filter LINEAR
+		Address WRAP
+		BorderColor 0 0 0 0
+	}
+
+	Sampler
+	{
+		Name gTex_Layer4
+		Index 4
+		BindType NONE
+		Filter LINEAR
+		Address WRAP
+		BorderColor 0 0 0 0
+	}
+	
+	PixelShader {
+
+		varying float4 o_projPos; 
+		varying float2 o_uv0;
+		varying float2 o_uv1;
+
+		uniform float4 gWeight;
+		uniform float gMass;
+		uniform float4 gAlphaParam;
+		uniform float4 gFadeParam;  // x - start, y - 1 / (end - start), z - intensity
+		uniform float4 gAmbient;
+		uniform float4 gDiffuse;
+
+		uniform sampler2D gTex_Lighting;
+		uniform sampler2D gTex_Layer1;
+		uniform sampler2D gTex_Layer2;
+		uniform sampler2D gTex_Layer3;
+		uniform sampler2D gTex_Layer4;
+
+		float Gaussian(float x, float gm)
+		{
+			gm = 1.0 / gm;
+
+			float e = -x * x * 0.5 * gm * gm;
+
+			return  1.0 / sqrt(3.1415926 * 2) * gm * exp(e);
+		}
+
+		void main()
+		{
+			float density = 0;
+
+			float2 uvInc[] = {
+								float2(0, -1), 
+				float2(-1, -1), float2(0,  0), float2(1,  0),
+								float2(0,  1)
+			};
+
+			float weight[] = {
+					  0.10,
+				0.10, 0.60, 0.10,
+					  0.10
+			};
+
+			for (int i = 0; i < 5; ++i)
+			{
+				float2 inc = uvInc[i] / 1024.0;
+				density += tex2D(gTex_Layer1, o_uv0 + inc).r * gWeight.x * weight[i];
+				density += tex2D(gTex_Layer2, o_uv1 + inc).r * gWeight.y * weight[i];
+			}
+
+			density -= gMass;
+			density = clamp(density, 0.0, 1.0);
+	
+			float a = (density - gAlphaParam.x) / (gAlphaParam.x + 0.0001);
+			a = clamp(a, 0.0, 1.0);
+			a = 1.0 - Gaussian(a * gAlphaParam.y, 2.0) / Gaussian(0.0, 2.0);
+			a = clamp(a, 0.0, 1.0);
+
+			#ifdef D_OGL
+			float2 projUV = o_projPos.xy / o_projPos.w * float2(0.5, 0.5) + 0.5;
+			#else
+			float2 projUV = o_projPos.xy / o_projPos.w * float2(0.5, -0.5) + 0.5;
+			#endif
+
+			float lighting = tex2D(gTex_Lighting, projUV).r;
+			float4 clr = gDiffuse * lighting + gAmbient * (1 - lighting);
+
+			float fade = 1.0 - (o_projPos.w - gFadeParam.x) * gFadeParam.y;
+			fade = clamp(fade, 0.0, 1.0);
+			fade = pow(fade, gFadeParam.z);
+	
+			clr.a = a * fade;
+
+			gl_FragColor = clr;
+		}
+	}
+}

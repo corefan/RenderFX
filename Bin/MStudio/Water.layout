@@ -1,0 +1,40 @@
+<Layout lookfeel="MainPanel">
+	<Name value="Root"/>
+	<Rect value="0 0 256 788"/>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="Caption"/>
+		<Rect value="0 0 244 28"/>
+		<Align value="16"/>
+		<Child type="Label" lookfeel="EditorBlack">
+			<Name value="Widget"/>
+			<Rect value="0 0 244 28"/>
+			<Align value="144"/>
+			<Caption value="Water"/>
+			<TextAlign value="1"/>
+		</Child>
+	</Child>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="WaterList"/>
+		<Rect value="6 33 232 272"/>
+		<Align value="1"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Add"/>
+		<Rect value="5 311 234 28"/>
+		<Align value="1"/>
+		<Caption value="New"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Refresh"/>
+		<Rect value="5 342 234 28"/>
+		<Align value="1"/>
+		<Caption value="Refresh"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Edit"/>
+		<Rect value="5 375 234 28"/>
+		<Align value="1"/>
+		<Caption value="Edit"/>
+	</Child>
+</Layout>
+

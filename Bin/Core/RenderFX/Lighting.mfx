@@ -1,0 +1,187 @@
+Pass
+{
+	State
+	{
+		CullMode NONE
+		DepthMode NONE
+		BlendMode OPACITY
+	}
+
+	Uniform
+	{
+		gCornerLeftTop FLOAT4
+		gCornerRightDir FLOAT4
+		gCornerDownDir FLOAT4
+
+		gLightPos FLOAT4 [count #N_LIGHTS];
+		gLightDir FLOAT4 [count #N_LIGHTS];
+		gLightAttenParam FLOAT4 [count #N_LIGHTS];
+		gLightSpotParam FLOAT4 [count #N_LIGHTS];
+		gDiffuse FLOAT4 [count #N_LIGHTS];
+		gSpecular FLOAT4 [count #N_LIGHTS];
+	}
+	
+	Attribute
+	{
+		i_Position POSITION
+		i_Texcoord TEXCOORD0
+	}
+	
+	VertexShader {
+		attribute float4 i_Position;
+		attribute float2 i_Texcoord;
+
+		varying float2 o_uv;
+
+		void main()
+		{
+			gl_Position = float4(i_Position.xy, 0, 1);
+			o_uv = i_Texcoord;
+		}
+	}
+
+	Sampler
+	{
+		Name gTex_Normal
+		Index 0
+		BindType NONE
+		Filter 	POINT
+		Address CLAMP
+	}
+
+	Sampler
+	{
+		Name gTex_Depth
+		Index 1
+		BindType NONE
+		Filter 	POINT
+		Address CLAMP
+	}
+
+	Sampler
+	{
+		Name gTex_Shadow
+		Index 2
+		BindType NONE
+		Filter 	DEFAULT
+		Address CLAMP
+	}
+	
+	PixelShader {
+		varying float2 o_uv;
+
+		uniform float4 gLightPos[N_LIGHTS];
+		uniform float4 gLightDir[N_LIGHTS];
+		uniform float4 gLightAttenParam[N_LIGHTS];
+		uniform float4 gLightSpotParam[N_LIGHTS];
+		uniform float4 gDiffuse[N_LIGHTS];
+		uniform float4 gSpecular[N_LIGHTS];
+
+		uniform float4 gCornerLeftTop;
+		uniform float4 gCornerRightDir;
+		uniform float4 gCornerDownDir;
+
+		uniform sampler2D gTex_Normal;
+		uniform sampler2D gTex_Depth;
+		uniform sampler2D gTex_Shadow;
+
+		float3 GetViewPosition(float2 uv, float d)
+		{
+			float4 p = gCornerLeftTop + gCornerRightDir * uv.x + gCornerDownDir * uv.y;
+
+			return p.xyz * d;
+		}
+
+		float3 GetViewNormal(float4 c)
+		{
+			return c.xyz * 2 - 1;
+		}
+
+		void main()
+		{
+			float4 normalSpec = tex2D(gTex_Normal, o_uv);
+			float depth = tex2D(gTex_Depth, o_uv);
+			float shadow = tex2D(gTex_Shadow, o_uv).r;
+
+			clip (0.9999 - depth);
+
+			float3 P = GetViewPosition(o_uv, depth);
+			float3 N = GetViewNormal(normalSpec);
+			float3 V = normalize(-P);
+			float shininess = normalSpec.w * 255;
+
+			float3 lighting = 0;
+			for (int i = 0; i < N_LIGHTS; ++i)
+			{
+				float ka = 1.0, kd = 1.0, ks = 0.0;
+
+#if defined(DIRECTION)
+				float3 L = gLightDir[i].xyz;
+				float3 H = normalize((V + L) / 2);
+
+				kd = dot(N, L);
+				kd = max(kd, 0.0);
+
+			#if 0
+				ks = dot(N, H);
+				ks = kd > 0 ? ks : 0;
+				ks = pow(ks, shininess);
+			#endif
+
+#elif defined(POINT)
+				float3 lightDir = gLightPos[i].xyz - P;
+				float4 attenParam = gLightAttenParam[i];
+				float dist = length(lightDir);
+
+				float3 L = normalize(lightDir);
+				float3 H = normalize((V + L) / 2);
+
+				kd = dot(N, L);
+				kd = max(kd, 0.0);
+
+			#if 0
+				ks = dot(N, H);
+				ks = kd > 0 ? ks : 0;
+				ks = pow(ks, shininess);
+			#endif
+
+				ka = 1.0 - clamp((dist - attenParam.x) * attenParam.z, 0.0, 1.0);
+				ka = pow(ka, attenParam.w);
+
+#elif defined(SPOT)
+				float3 spotDir = gLightPos[i].xyz - P;
+				float4 attenParam = gLightAttenParam[i];
+				float4 spotParam = gLightSpotParam[i];
+				float dist = length(spotDir);
+
+				float3 S = normalize(spotDir);
+				float3 L = gLightDir[i].xyz;
+				float3 H = normalize((V + L) / 2);
+
+				kd = dot(N, L);
+				kd = max(kd, 0.0);
+
+			#if 0
+				ks = dot(N, H);
+				ks = kd > 0 ? ks : 0;
+				ks = pow(ks, shininess);
+			#endif
+
+				ka = 1.0 - clamp((dist - attenParam.x) * attenParam.z, 0.0, 1.0);
+				ka = pow(ka, attenParam.w);
+
+				float ki = max(0.0, dot(S, L));
+				ki = clamp((ki - spotParam.x) * spotParam.z, 0.0, 1.0);
+				ki = pow(ki, spotParam.w);
+
+				ka *= ki;
+#endif
+				
+				lighting += ka * (kd * gDiffuse[i].rgb + ks * gSpecular[i].rgb) * shadow;
+			}
+
+			gl_FragColor = float4(lighting, 1);
+		}
+	}
+
+}

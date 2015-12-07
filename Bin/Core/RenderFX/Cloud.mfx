@@ -1,0 +1,51 @@
+Pass
+{
+	State
+	{
+		CullMode NONE
+		DepthMode ALWAYS
+		BlendMode OPACITY
+	}
+
+	Uniform
+	{
+		gTranslate FLOAT4
+		gScale FLOAT4
+		matWVP VIEW_PROJ_MATRIX
+	}
+
+	Attribute
+	{
+		i_Position POSITION
+		i_UV TEXCOORD0
+	}
+	
+	VertexShader {
+		attribute float4 i_Position;
+		attribute float2 i_UV;
+
+		varying float2 o_uv;
+
+		uniform float4 gTranslate;
+		uniform float4 gScale;
+		uniform mat4 matWVP;
+
+		void main()
+		{
+			i_Position.xyz = i_Position.xyz * gScale.xyz + gTranslate.xyz;
+	
+			gl_Position = matWVP * i_Position;
+			o_uv = i_UV;
+		}
+	}
+	
+	PixelShader {
+
+		varying float2 o_uv;
+
+		void main()
+		{
+			gl_FragColor = float4(o_uv.x, o_uv.y, 0, 1);
+		}
+	}
+}

@@ -1,0 +1,167 @@
+Pass
+{
+	State
+	{
+		CullMode NONE
+		DepthMode NONE
+		BlendMode OPACITY
+	}
+	
+	Uniform
+	{
+		uSunDirVS FLOAT3
+		uCameraPos FLOAT3
+		uInvWaveLength FLOAT3
+		uInnerRadius FLOAT1
+
+		uKrESun FLOAT1
+		uKmESun FLOAT1
+		uKr4PI FLOAT1
+		uKm4PI FLOAT1
+
+		uScale FLOAT1
+		uScaleDepth FLOAT1
+		uScaleOverScaleDepth FLOAT1
+
+		uSunDir FLOAT3
+		uG FLOAT1
+		uG2 FLOAT1
+		uExposure FLOAT1
+
+		uWorldViewProj WORLD_VIEW_PROJ_MATRIX
+	}
+	
+	Attribute
+	{
+		iPosition POSITION
+	}
+	
+	Sampler
+	{
+		Index 				0 
+		BindType 			NONE
+		Filter 				DEFAULT
+		Address 			CLAMP
+		BorderColor 		0 0 0 0
+	}
+	
+	VertexShader {
+		float scale(float cos, float uScaleDepth)
+		{
+			float x = 1.0 - cos;
+			return uScaleDepth * exp(-0.00287 + x*(0.459 + x*(3.83 + x*(-6.80 + x*5.25))));
+		}
+
+		attribute float4 iPosition;
+
+		varying float3 oRayleighColor;
+		varying float3 oMieColor;
+		varying float3 oDirection;
+		varying float  oHeight;
+
+		uniform float3 uSunDirVS;
+		uniform float3 uCameraPos;
+		uniform float3 uInvWaveLength;
+		uniform float  uInnerRadius;
+
+		// Scattering parameters
+		uniform float  uKrESun; // Kr * ESun
+		uniform float  uKmESun; // Km * ESun
+		uniform float  uKr4PI;  // Kr * 4 * PI
+		uniform float  uKm4PI;  // Km * 4 * PI
+
+		// Atmosphere properties
+		uniform float uScale;               // 1 / (outerRadius - innerRadius)
+		uniform float uScaleDepth;          // Where the average atmosphere density is found
+		uniform float uScaleOverScaleDepth; // Scale / ScaleDepth
+
+		uniform mat4 uWorldViewProj;
+
+		void main()
+		{
+			gl_Position = uWorldViewProj * iPosition;
+
+			float3 NPos = iPosition.xyz;
+
+			NPos.y = max(0.0, NPos.y);
+			NPos = normalize(NPos);
+
+			float3 v3Pos = NPos;
+			v3Pos.y += uInnerRadius;
+
+			float3 v3Ray = v3Pos - uCameraPos;
+			float fFar = length(v3Ray);
+			v3Ray /= fFar;
+	
+			// Calculate the ray's starting position, then calculate its scattering offset
+			float3 v3Start = uCameraPos;
+			float fHeight = uCameraPos.y;
+			float fStartAngle = dot(v3Ray, v3Start) / fHeight;
+
+			// NOTE: fDepth is not pased as parameter(like a constant) to avoid the little precission issue (Apreciable)
+			float fDepth = exp(uScaleOverScaleDepth * (uInnerRadius - uCameraPos.y));
+			float fStartOffset = fDepth * scale(fStartAngle, uScaleDepth);
+
+			// Init loop variables
+			float fSampleLength = fFar / 4.0;
+			float fScaledLength = fSampleLength * uScale;
+			float3 v3SampleRay = v3Ray * fSampleLength;
+			float3 v3SamplePoint = v3Start + v3SampleRay * 0.5;
+	
+			// Loop the ray
+			float3 color = 0;
+			for (int i = 0; i < 4; ++i)
+			{
+				float fHeight = length(v3SamplePoint);
+				float fDepth = exp(uScaleOverScaleDepth * (uInnerRadius-fHeight));
+		
+				float fLightAngle = dot(uSunDirVS, v3SamplePoint) / fHeight;
+				float fCameraAngle = dot(v3Ray, v3SamplePoint) / fHeight;
+		
+				float fScatter = (fStartOffset + fDepth*(scale(fLightAngle, uScaleDepth) - scale(fCameraAngle, uScaleDepth)));
+				float3 v3Attenuate = exp(-fScatter * (uInvWaveLength * uKr4PI + uKm4PI));
+		
+				// Accumulate color
+				v3Attenuate *= (fDepth * fScaledLength);
+				color += v3Attenuate;
+		
+				// Next sample point
+				v3SamplePoint += v3SampleRay;
+			}
+
+			// Outputs
+			oRayleighColor = color * (uInvWaveLength * uKrESun); // TODO <--- parameter
+			oMieColor = color * uKmESun; // TODO <--- *uInvMieWaveLength
+			oDirection = uCameraPos - v3Pos;
+			oHeight = 1 - iPosition.y;
+		}
+	}
+	
+	PixelShader {
+
+		varying float3 oRayleighColor;
+		varying float3 oMieColor;
+		varying float3 oDirection;
+		varying float  oHeight;
+
+		uniform float3 uSunDir;
+		uniform float  uG;
+		uniform float  uG2;
+		uniform float  uExposure;
+
+		void main()
+		{
+			float cos = dot(uSunDir, oDirection) / length(oDirection);
+			float cos2 = cos*cos;
+	
+			float rayleighPhase = 0.75 * (1.0 + 0.5*cos2);
+			float miePhase = 1.5 * ((1.0 - uG2) / (2.0 + uG2)) *
+							 (1.0 + cos2) / pow(1.0 + uG2 - 2.0 * uG * cos, 1.5);
+
+			float3 clr = rayleighPhase * oRayleighColor + miePhase * oMieColor;
+	
+			gl_FragColor.rgb = lerp(clr, 0, (oHeight - 1.0) * 1.0);
+			gl_FragColor.a = 1;
+		}
+	}
+}

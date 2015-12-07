@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Profile|Win32">
+      <Configuration>Profile</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6AC33BC3-5D9E-40AE-A413-8DE7955BB5A0}</ProjectGuid>
+    <RootNamespace>MRenderFX</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IntDir>..\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IntDir>..\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
+    <IntDir>..\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../SDK.Win32/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>RFX_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OutputFile>../SDK.Win32/dll/$(Configuration)/$(ProjectName).dll</OutputFile>
+      <AdditionalLibraryDirectories>../SDK.Win32/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>../SDK.Win32/lib/$(Configuration)/$(ProjectName).lib</ImportLibrary>
+      <ProgramDatabaseFile>../SDK.Win32/dll/$(Configuration)/$(ProjectName).pdb</ProgramDatabaseFile>
+      <AdditionalDependencies>MCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>PostBuild.bat</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>../SDK.Win32/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>RFX_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>../SDK.Win32/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <OutputFile>../SDK.Win32/dll/$(Configuration)/$(ProjectName).dll</OutputFile>
+      <ImportLibrary>../SDK.Win32/lib/$(Configuration)/$(ProjectName).lib</ImportLibrary>
+      <ProgramDatabaseFile>../SDK.Win32/dll/$(Configuration)/$(ProjectName).pdb</ProgramDatabaseFile>
+      <AdditionalDependencies>MCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>PostBuild.bat</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profile|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>../SDK.Win32/include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>M_PROFILE;RFX_EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>../SDK.Win32/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <OutputFile>../SDK.Win32/dll/$(Configuration)/$(ProjectName).dll</OutputFile>
+      <ImportLibrary>../SDK.Win32/lib/$(Configuration)/$(ProjectName).lib</ImportLibrary>
+      <ProgramDatabaseFile>../SDK.Win32/dll/$(Configuration)/$(ProjectName).pdb</ProgramDatabaseFile>
+      <AdditionalDependencies>MCore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>PostBuild.bat</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MCloud.cpp" />
+    <ClCompile Include="MFXAA.cpp" />
+    <ClCompile Include="MGodRay.cpp" />
+    <ClCompile Include="MHDR.cpp" />
+    <ClCompile Include="MLighting.cpp" />
+    <ClCompile Include="MRenderFX.cpp" />
+    <ClCompile Include="MEvParam.cpp" />
+    <ClCompile Include="MRain.cpp" />
+    <ClCompile Include="MShadow.cpp" />
+    <ClCompile Include="MSky.cpp" />
+    <ClCompile Include="MSnow.cpp" />
+    <ClCompile Include="MSSAO.cpp" />
+    <ClCompile Include="MSun.cpp" />
+    <ClCompile Include="MAstronomy.cpp" />
+    <ClCompile Include="MBrightStarCatalogue.cpp" />
+    <ClCompile Include="MOcean.cpp" />
+    <ClCompile Include="MPerlin.cpp" />
+    <ClCompile Include="MProjectionGrid.cpp" />
+    <ClCompile Include="MStarfield.cpp" />
+    <ClCompile Include="MUnderWater.cpp" />
+    <ClCompile Include="MWaterMesh.cpp" />
+    <ClCompile Include="MWaterMeshShader.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MCloud.h" />
+    <ClInclude Include="MFXAA.h" />
+    <ClInclude Include="MGodRay.h" />
+    <ClInclude Include="MHDR.h" />
+    <ClInclude Include="MLighting.h" />
+    <ClInclude Include="MReflection.h" />
+    <ClInclude Include="MRenderFX.h" />
+    <ClInclude Include="MEvParam.h" />
+    <ClInclude Include="MRain.h" />
+    <ClInclude Include="MRenderFXEntry.h" />
+    <ClInclude Include="MShadow.h" />
+    <ClInclude Include="MSky.h" />
+    <ClInclude Include="MSnow.h" />
+    <ClInclude Include="MSSAO.h" />
+    <ClInclude Include="MSun.h" />
+    <ClInclude Include="MAstronomy.h" />
+    <ClInclude Include="MBrightStarCatalogue.h" />
+    <ClInclude Include="MOcean.h" />
+    <ClInclude Include="MPerlin.h" />
+    <ClInclude Include="MProjectionGrid.h" />
+    <ClInclude Include="MStarfield.h" />
+    <ClInclude Include="MUnderWater.h" />
+    <ClInclude Include="MWaterMesh.h" />
+    <ClInclude Include="MWaterMeshShader.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

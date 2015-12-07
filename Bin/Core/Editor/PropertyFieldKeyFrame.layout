@@ -1,0 +1,45 @@
+<Layout lookfeel="MainPanel">
+	<Name value="Root"/>
+	<Rect value="0 558 1026 256"/>
+	<Align value="80"/>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="Tracker"/>
+		<Rect value="0 0 1014 64"/>
+		<Align value="16"/>
+	</Child>
+	<Child type="Label" lookfeel="EditorBlack">
+		<Name value="Widget"/>
+		<Rect value="0 67 100 28"/>
+		<Caption value="Time:"/>
+	</Child>
+	<Child type="EditBox" lookfeel="MainEditBox">
+		<Name value="Time"/>
+		<Rect value="106 67 385 27"/>
+	</Child>
+	<Child type="Label" lookfeel="EditorBlack">
+		<Name value="Widget"/>
+		<Rect value="0 99 100 28"/>
+		<Caption value="Value:"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Add"/>
+		<Rect value="514 68 168 28"/>
+		<Caption value="Add"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Remove"/>
+		<Rect value="516 98 168 28"/>
+		<Caption value="Remove"/>
+	</Child>
+	<Child type="Button" lookfeel="Close">
+		<Name value="Close"/>
+		<Rect value="994 224 20 20"/>
+		<Order value="100"/>
+		<Align value="72"/>
+	</Child>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="KeyFrame"/>
+		<Rect value="107 99 384 145"/>
+	</Child>
+</Layout>
+

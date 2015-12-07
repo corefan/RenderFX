@@ -1,0 +1,64 @@
+<Layout lookfeel="DialogClient">
+	<Name value="Root"/>
+	<Rect value="255 158 323 180"/>
+	<Child type="Widget" lookfeel="DialogCaption">
+		<Name value="Top"/>
+		<Rect value="0 0 316 32"/>
+		<Align value="16"/>
+	</Child>
+	<Child type="EditBox" lookfeel="MainEditBox">
+		<Name value="GridSize"/>
+		<Rect value="110 50 200 27"/>
+	</Child>
+	<Child type="EditBox" lookfeel="MainEditBox">
+		<Name value="xGridCount"/>
+		<Rect value="110 85 100 27"/>
+	</Child>
+	<Child type="EditBox" lookfeel="MainEditBox">
+		<Name value="zGridCount"/>
+		<Rect value="210 85 100 27"/>
+	</Child>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="T_GridCount"/>
+		<Rect value="7 85 100 27"/>
+		<Child type="Label" lookfeel="EditorBlack">
+			<Name value="Widget"/>
+			<Rect value="0 0 100 27"/>
+			<Align value="144"/>
+			<Caption value="GridCount:"/>
+		</Child>
+	</Child>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="T_GridSize"/>
+		<Rect value="7 50 100 27"/>
+		<Child type="Label" lookfeel="EditorBlack">
+			<Name value="Widget"/>
+			<Rect value="0 0 100 27"/>
+			<Align value="144"/>
+			<Caption value="GridSize:"/>
+		</Child>
+	</Child>
+	<Child type="Button" lookfeel="Close">
+		<Name value="Close"/>
+		<Rect value="291 4 20 20"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="OK"/>
+		<Rect value="58 131 200 28"/>
+		<Align value="1"/>
+		<Caption value="OK"/>
+	</Child>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="Caption"/>
+		<Rect value="9 0 278 27"/>
+		<Order value="1"/>
+		<Child type="Label" lookfeel="EditorBlack">
+			<Name value="Widget"/>
+			<Rect value="0 0 278 27"/>
+			<Align value="144"/>
+			<Caption value="WaterInfo"/>
+			<TextAlign value="1"/>
+		</Child>
+	</Child>
+</Layout>
+

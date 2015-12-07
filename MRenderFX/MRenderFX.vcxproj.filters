@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MRain.cpp">
+      <Filter>Render\Rain</Filter>
+    </ClCompile>
+    <ClCompile Include="MSky.cpp">
+      <Filter>Render\Sky</Filter>
+    </ClCompile>
+    <ClCompile Include="MSun.cpp">
+      <Filter>Render\Sun</Filter>
+    </ClCompile>
+    <ClCompile Include="MSnow.cpp">
+      <Filter>Render\Snow</Filter>
+    </ClCompile>
+    <ClCompile Include="MEvParam.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="MRenderFX.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="MStarfield.cpp">
+      <Filter>Render\Starfield</Filter>
+    </ClCompile>
+    <ClCompile Include="MBrightStarCatalogue.cpp">
+      <Filter>Render\Starfield</Filter>
+    </ClCompile>
+    <ClCompile Include="MHDR.cpp">
+      <Filter>Render\HDR</Filter>
+    </ClCompile>
+    <ClCompile Include="MGodRay.cpp">
+      <Filter>Render\GodRay</Filter>
+    </ClCompile>
+    <ClCompile Include="MSSAO.cpp">
+      <Filter>Render\SSAO</Filter>
+    </ClCompile>
+    <ClCompile Include="MCloud.cpp">
+      <Filter>Render\Cloud</Filter>
+    </ClCompile>
+    <ClCompile Include="MShadow.cpp">
+      <Filter>Render\Shadow</Filter>
+    </ClCompile>
+    <ClCompile Include="MAstronomy.cpp">
+      <Filter>Render\Sky</Filter>
+    </ClCompile>
+    <ClCompile Include="MLighting.cpp">
+      <Filter>Render\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="MUnderWater.cpp">
+      <Filter>Render\UnderWater</Filter>
+    </ClCompile>
+    <ClCompile Include="MOcean.cpp">
+      <Filter>Render\Ocean</Filter>
+    </ClCompile>
+    <ClCompile Include="MPerlin.cpp">
+      <Filter>Render\Ocean</Filter>
+    </ClCompile>
+    <ClCompile Include="MProjectionGrid.cpp">
+      <Filter>Render\Ocean</Filter>
+    </ClCompile>
+    <ClCompile Include="MWaterMesh.cpp">
+      <Filter>Render\Water</Filter>
+    </ClCompile>
+    <ClCompile Include="MWaterMeshShader.cpp">
+      <Filter>Render\Water</Filter>
+    </ClCompile>
+    <ClCompile Include="MFXAA.cpp">
+      <Filter>Render\AA</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MRain.h">
+      <Filter>Render\Rain</Filter>
+    </ClInclude>
+    <ClInclude Include="MSky.h">
+      <Filter>Render\Sky</Filter>
+    </ClInclude>
+    <ClInclude Include="MSun.h">
+      <Filter>Render\Sun</Filter>
+    </ClInclude>
+    <ClInclude Include="MSnow.h">
+      <Filter>Render\Snow</Filter>
+    </ClInclude>
+    <ClInclude Include="MEvParam.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="MRenderFX.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="MRenderFXEntry.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="MStarfield.h">
+      <Filter>Render\Starfield</Filter>
+    </ClInclude>
+    <ClInclude Include="MBrightStarCatalogue.h">
+      <Filter>Render\Starfield</Filter>
+    </ClInclude>
+    <ClInclude Include="MHDR.h">
+      <Filter>Render\HDR</Filter>
+    </ClInclude>
+    <ClInclude Include="MGodRay.h">
+      <Filter>Render\GodRay</Filter>
+    </ClInclude>
+    <ClInclude Include="MSSAO.h">
+      <Filter>Render\SSAO</Filter>
+    </ClInclude>
+    <ClInclude Include="MCloud.h">
+      <Filter>Render\Cloud</Filter>
+    </ClInclude>
+    <ClInclude Include="MShadow.h">
+      <Filter>Render\Shadow</Filter>
+    </ClInclude>
+    <ClInclude Include="MAstronomy.h">
+      <Filter>Render\Sky</Filter>
+    </ClInclude>
+    <ClInclude Include="MLighting.h">
+      <Filter>Render\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="MUnderWater.h">
+      <Filter>Render\UnderWater</Filter>
+    </ClInclude>
+    <ClInclude Include="MProjectionGrid.h">
+      <Filter>Render\Ocean</Filter>
+    </ClInclude>
+    <ClInclude Include="MOcean.h">
+      <Filter>Render\Ocean</Filter>
+    </ClInclude>
+    <ClInclude Include="MPerlin.h">
+      <Filter>Render\Ocean</Filter>
+    </ClInclude>
+    <ClInclude Include="MReflection.h">
+      <Filter>Render\Ocean</Filter>
+    </ClInclude>
+    <ClInclude Include="MWaterMesh.h">
+      <Filter>Render\Water</Filter>
+    </ClInclude>
+    <ClInclude Include="MWaterMeshShader.h">
+      <Filter>Render\Water</Filter>
+    </ClInclude>
+    <ClInclude Include="MFXAA.h">
+      <Filter>Render\AA</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Render">
+      <UniqueIdentifier>{a96934f4-ed39-4563-81a3-df9f98ee63fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Rain">
+      <UniqueIdentifier>{854698c0-ca7a-44cb-b0ac-1d31144a4e66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Sky">
+      <UniqueIdentifier>{87c8e4e5-f21d-4d42-a58e-d5cd3be5c7f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Starfield">
+      <UniqueIdentifier>{ae224c1f-6d74-43ce-b56e-2b91a561273b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Sun">
+      <UniqueIdentifier>{b432aafb-df33-4b26-bd17-c4addc30cd39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Snow">
+      <UniqueIdentifier>{0d253678-8902-46ce-ac68-b6039a92c30f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\HDR">
+      <UniqueIdentifier>{dbb32f65-8a4f-486a-9b66-ee9fd1f59dde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\GodRay">
+      <UniqueIdentifier>{f7f5b1a0-3723-40ca-b1db-99c263a6f2fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\SSAO">
+      <UniqueIdentifier>{628d1fa8-0e7d-49fc-946e-25a18baf04fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Cloud">
+      <UniqueIdentifier>{6b6a2909-e088-41cd-bf4c-7a1429e07033}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Shadow">
+      <UniqueIdentifier>{878108dc-78bf-4033-b0fd-dd8c83ce66fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Lighting">
+      <UniqueIdentifier>{172d3c6a-4e75-4dca-8eaf-6e6d064eb469}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\UnderWater">
+      <UniqueIdentifier>{db0ac09e-202f-4845-8663-ecd46d74276c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Ocean">
+      <UniqueIdentifier>{ba0fda1c-28cf-4e02-9272-8fb509d2d947}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\Water">
+      <UniqueIdentifier>{d1260b1f-67e0-41eb-afe8-1329c039f813}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\AA">
+      <UniqueIdentifier>{e785ecb5-e854-4939-931e-00d615c32847}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,191 @@
+Pass
+{
+	State
+	{
+		CullMode NONE
+		DepthMode NONE
+		BlendMode OPACITY
+	}
+
+	Uniform
+	{
+		gExposure FLOAT1
+		gBloomWeight FLOAT4
+		gSharpParam FLOAT4
+		gUVOffsets FLOAT4 [count 8]
+	}
+	
+	Attribute
+	{
+		i_Position POSITION
+		i_Texcoord TEXCOORD0
+	}
+	
+	Sampler
+	{
+		Name				gTex_Lum
+		Index 				0 
+		BindType 			NONE
+		Filter 				POINT
+		Address 			CLAMP
+		BorderColor 		0 0 0 0
+	}
+
+	Sampler
+	{
+		Name				gTex_Scene
+		Index 				1
+		BindType 			NONE
+		Filter 				POINT
+		Address 			CLAMP
+		BorderColor 		0 0 0 0
+	}
+
+	Sampler
+	{
+		Name				gTex_Depth
+		Index 				2
+		BindType 			NONE
+		Filter 				POINT
+		Address 			CLAMP
+		BorderColor 		0 0 0 0
+	}
+
+	Sampler
+	{
+		Name				gTex_Bright0
+		Index 				3
+		BindType 			NONE
+		Filter 				LINEAR
+		Address 			CLAMP
+		BorderColor 		0 0 0 0
+	}
+
+	Sampler
+	{
+		Name				gTex_Bright1
+		Index 				4
+		BindType 			NONE
+		Filter 				LINEAR
+		Address 			CLAMP
+		BorderColor 		0 0 0 0
+	}
+
+	Sampler
+	{
+		Name				gTex_Bright2
+		Index 				5
+		BindType 			NONE
+		Filter 				LINEAR
+		Address 			CLAMP
+		BorderColor 		0 0 0 0
+	}
+	
+	
+	VertexShader {
+		attribute float4 i_Position;
+		attribute float2 i_Texcoord;
+
+		varying float2 o_uv;
+
+		void main()
+		{
+			gl_Position = float4(i_Position.xy, 0, 1);
+			o_uv = i_Texcoord;
+		}
+	}
+	
+	PixelShader {
+		varying float2 o_uv;
+
+		uniform sampler2D gTex_Lum;
+		uniform sampler2D gTex_Scene;
+		uniform sampler2D gTex_Depth;
+		uniform sampler2D gTex_Bright0;
+		uniform sampler2D gTex_Bright1;
+		uniform sampler2D gTex_Bright2;
+
+		uniform float gExposure;
+		uniform float4 gBloomWeight;
+		uniform float4 gSharpParam;
+		uniform float4 gUVOffsets[8];
+
+		const float A = 0.15;
+		const float B = 0.50;
+		const float C = 0.10;
+		const float D = 0.20;
+		const float E = 0.02;
+		const float F = 0.30;
+		const float W = 11.2;
+
+		float3 Uncharted2Tonemap(float3 x)
+		{
+		  return ((x*(A*x+C*B)+D*E)/(x*(A*x+B)+D*F))-E/F;
+		}
+
+		/*
+		float3 BlurShift(float3 vSample, float fLum)
+		{
+			const float3 LUMINANCE_VECTOR  = float3(0.2125, 0.7154, 0.0721);
+			const float3 BLUE_SHIFT_VECTOR = float3(1.05, 0.97, 1.27); 
+			float fMaxBlueShiftCoefficient = 0.2;
+
+			float fBlueShiftCoefficient = 1.0 - (fLum + 1.5)/4.1;
+
+			fBlueShiftCoefficient = saturate(fBlueShiftCoefficient);
+			fBlueShiftCoefficient = lerp(0, fMaxBlueShiftCoefficient, fBlueShiftCoefficient);
+
+			// Lerp between current color and blue, desaturated copy
+			float3 vRodColor = dot(vSample, LUMINANCE_VECTOR) * BLUE_SHIFT_VECTOR;
+        
+			return lerp(vSample, vRodColor, fBlueShiftCoefficient) ;
+		}
+		*/
+
+		float3 ColorSharp(float3 orig, float2 uv0)
+		{
+			float3 blured = float3(0, 0, 0);
+			for (int i = 0; i < 8; ++i)
+			{
+				blured += tex2D(gTex_Scene, uv0 + gUVOffsets[i].xy).rgb;
+			}
+	
+			blured /= 8;
+
+			float depth = tex2D(gTex_Depth, uv0).r * 100000;
+			float k = (depth - gSharpParam.y) * gSharpParam.z;
+			k = 1 - clamp(k, 0.0, 1.0);
+			k *= gSharpParam.x;
+	
+			return orig + (orig - blured) * k;
+		}
+
+		void main()
+		{
+			float adaptedLum = tex2D(gTex_Lum, float2(0.5, 0.5)).r;
+			float3 texColor = tex2D(gTex_Scene, o_uv).rgb;
+			float3 texBright0 = tex2D(gTex_Bright0, o_uv).rgb * gBloomWeight.x;
+			float3 texBright1 = tex2D(gTex_Bright1, o_uv).rgb * gBloomWeight.y;
+			float3 texBright2 = tex2D(gTex_Bright2, o_uv).rgb * gBloomWeight.z;
+	
+			float3 texBright = texBright0 + texBright1 + texBright2;
+
+			texColor = ColorSharp(texColor, o_uv);
+
+			texColor = pow(texColor.rgb, 2.2);
+			texBright = pow(texBright.rgb, 2.2);
+	
+			texColor += texBright;
+
+			//texColor = BlurShift(texColor, adaptedLum);
+	
+			texColor *= gExposure / (adaptedLum + 0.001);
+
+			texColor = Uncharted2Tonemap(texColor) / Uncharted2Tonemap(W);
+	
+			texColor = pow(texColor,1/2.2);
+	
+			gl_FragColor = float4(texColor, 1);
+		}
+	}
+}

@@ -1,0 +1,86 @@
+Pass
+{
+	State
+	{
+		CullMode NONE
+		DepthMode NONE
+		BlendMode OPACITY
+	}
+
+	Uniform
+	{
+		gGodRayParam FLOAT4
+	}
+
+	Attribute
+	{
+		i_Position POSITION
+		i_Texcoord TEXCOORD0
+	}
+
+	Sampler
+	{
+		Name				gTex_Depth
+		Index 				0 
+		BindType 			NONE
+		Filter 				POINT
+		Address 			CLAMP
+		BorderColor 		0 0 0 0
+	}
+
+	Sampler
+	{
+		Name				gTex_Sun
+		Index 				1
+		BindType 			NONE
+		Filter 				LINEAR
+		Address 			CLAMP
+		BorderColor 		0 0 0 0
+	}
+	
+	VertexShader {
+		attribute float4 i_Position;
+		attribute float2 i_Texcoord;
+
+		varying float2 o_uv;
+
+		void main()
+		{
+			gl_Position = float4(i_Position.xy, 0, 1);
+			o_uv = i_Texcoord;
+		}
+	}
+	
+	PixelShader {
+		varying float2 o_uv;
+
+		uniform float4 gGodRayParam;
+
+		uniform sampler2D gTex_Depth;
+		uniform sampler2D gTex_Sun;
+
+		void main()
+		{
+			float2 sunUV = gGodRayParam.xy;
+			float uvStep = gGodRayParam.z;
+	
+			float2 dir = sunUV - o_uv;
+	
+			float4 color = float4(0, 0, 0, 0);
+			for (int i = 0; i < 32; ++i)
+			{
+				float2 uv = o_uv + dir * uvStep * i;
+		
+				float depth = tex2D(gTex_Depth, uv).r;
+				float sunColor = tex2D(gTex_Sun, uv).r;
+		
+				if (depth > 0.999f)
+					color += sunColor;
+			}
+	
+			color /= 32;
+
+			gl_FragColor = color;
+		}
+	}
+}

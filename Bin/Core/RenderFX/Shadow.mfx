@@ -1,0 +1,168 @@
+Pass
+{
+	State
+	{
+		CullMode NONE
+		DepthMode NONE
+		BlendMode OPACITY
+	}
+
+	Uniform
+	{
+		gShadowInfo FLOAT4
+		matShadow MATRIX4
+
+		gCornerLeftTop FLOAT4
+		gCornerRightDir FLOAT4
+		gCornerDownDir FLOAT4
+	}
+	
+	Attribute
+	{
+		i_Position POSITION
+		i_Texcoord TEXCOORD0
+	}
+	
+	VertexShader {
+		attribute float4 i_Position;
+		attribute float2 i_Texcoord;
+
+		varying float2 o_uv;
+
+		void main()
+		{
+			gl_Position = float4(i_Position.xy, 0, 1);
+			o_uv = i_Texcoord;
+		}
+	}
+
+	Sampler
+	{
+		Name depthTex
+		BindType NONE
+		Filter 	POINT
+		Address CLAMP
+	}
+
+	Sampler
+	{
+		Name shadowTex
+		BindType NONE
+		Filter 	POINT
+		Address CLAMP
+	}
+
+	Sampler
+	{
+		Name randMap
+		BindType NONE
+		Filter 	POINT
+		Address CLAMP
+	}
+	
+	PixelShader {
+		varying float2 o_uv;
+
+		uniform float4 gShadowInfo;
+		uniform mat4 matShadow;
+
+		uniform float4 gCornerLeftTop;
+		uniform float4 gCornerRightDir;
+		uniform float4 gCornerDownDir;
+
+		uniform sampler2D depthTex;
+		uniform sampler2D shadowTex;
+		uniform sampler2D randMap;
+
+		float4 getPosition(float d, float2 uv)
+		{
+			float4 p = gCornerLeftTop + gCornerRightDir * uv.x + gCornerDownDir * uv.y;
+			return float4(p.xyz * d, 1);
+		}
+
+		void main()
+		{
+			float INV_TEXSIZE = 1 / 2048.0;
+
+			float depth = tex2D(depthTex, o_uv).r;
+			clip (0.9999 - depth);
+
+			float4 pos = getPosition(depth, o_uv);
+			if (pos.z < gShadowInfo.x)
+				discard;
+			if (pos.z >= gShadowInfo.y)
+				discard;
+
+			pos = matShadow * pos;
+
+			float2 shadowUV = pos.xy * float2(0.5, -0.5) + 0.5;
+			float adjDepth = pos.z - gShadowInfo.z;
+			//float3 randN = tex2D(randMap, o_uv * 24).xyz * 2.0 - 1.0;
+
+			float shadow = 0;
+
+		#ifdef D_LAYER0
+			for (int j = -2; j <= 2; ++j)
+			{
+				for (int i = -2; i <= 2; ++i)
+				{
+					float2 uv = float2(i, j) * INV_TEXSIZE;
+					//float3 randomDir = reflect(float3(uv.x, 0, uv.y), randN);
+
+					//uv = randomDir.xz + shadowUV;
+					uv += shadowUV;
+
+					float d = tex2D(shadowTex, uv).r;
+
+					shadow += adjDepth > d ? 0 : 1;
+				}
+			}
+
+			shadow /= 25;
+		#endif
+
+		#ifdef D_LAYER1
+			for (int j = -1; j <= 1; ++j)
+			{
+				for (int i = -1; i <= 1; ++i)
+				{
+					float2 uv = float2(i, j) * INV_TEXSIZE;
+					//float3 randomDir = reflect(float3(uv.x, 0, uv.y), randN);
+
+					//uv = randomDir.xz + shadowUV;
+					uv += shadowUV;
+
+					float d = tex2D(shadowTex, uv).r;
+
+					shadow += adjDepth > d ? 0 : 1;
+				}
+			}
+
+			shadow /= 9;
+		#endif
+
+		#ifdef D_LAYER2
+			for (int j = 0; j <= 0; ++j)
+			{
+				for (int i = 0; i <= 0; ++i)
+				{
+					float2 uv = float2(i, j) * INV_TEXSIZE;
+					//float3 randomDir = reflect(float3(uv.x, 0, uv.y), randN);
+
+					//uv = randomDir.xz + shadowUV;
+					uv += shadowUV;
+
+					float d = tex2D(shadowTex, uv).r;
+
+					shadow += adjDepth > d ? 0 : 1;
+				}
+			}
+
+			shadow /= 1;
+		#endif
+
+			gl_FragColor = float4(shadow, shadow, shadow, 1);
+		}
+	}
+
+}

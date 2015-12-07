@@ -1,0 +1,121 @@
+<Layout lookfeel="MainPanel" version="1">
+	<Name value="Root"/>
+	<Rect value="0 0 256 788"/>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="Caption"/>
+		<Rect value="0 0 244 28"/>
+		<Align value="16"/>
+		<Child type="Label" lookfeel="EditorBlack">
+			<Name value="Widget"/>
+			<Rect value="0 0 244 28"/>
+			<Align value="144"/>
+			<Caption value="ParticleFX"/>
+			<TextAlign value="1"/>
+		</Child>
+	</Child>
+	<Child type="Widget" lookfeel="MainPanel">
+		<Name value="Emitter"/>
+		<Rect value="0 253 244 258"/>
+		<Align value="16"/>
+		<Child type="Label" lookfeel="EditorBlack">
+			<Name value="Caption"/>
+			<Rect value="0 0 232 28"/>
+			<Align value="16"/>
+			<Caption value="Emitter"/>
+			<TextAlign value="1"/>
+		</Child>
+		<Child type="Widget" lookfeel="EditorBlack">
+			<Name value="List"/>
+			<Rect value="0 33 232 180"/>
+			<Align value="16"/>
+		</Child>
+		<Child type="Button" lookfeel="MainButton">
+			<Name value="New"/>
+			<Rect value="0 218 116 28"/>
+			<Align value="68"/>
+			<Caption value="New"/>
+		</Child>
+		<Child type="Button" lookfeel="MainButton">
+			<Name value="Delete"/>
+			<Rect value="116 218 116 28"/>
+			<Align value="72"/>
+			<Caption value="Delete"/>
+		</Child>
+	</Child>
+	<Child type="Widget" lookfeel="MainPanel">
+		<Name value="Modifier"/>
+		<Rect value="0 512 244 258"/>
+		<Align value="16"/>
+		<Child type="Label" lookfeel="EditorBlack">
+			<Name value="Caption"/>
+			<Rect value="0 0 232 28"/>
+			<Align value="16"/>
+			<Caption value="Modifier"/>
+			<TextAlign value="1"/>
+		</Child>
+		<Child type="Widget" lookfeel="EditorBlack">
+			<Name value="List"/>
+			<Rect value="0 33 232 180"/>
+			<Align value="16"/>
+		</Child>
+		<Child type="Button" lookfeel="MainButton">
+			<Name value="New"/>
+			<Rect value="0 218 116 28"/>
+			<Align value="68"/>
+			<Caption value="New"/>
+		</Child>
+		<Child type="Button" lookfeel="MainButton">
+			<Name value="Delete"/>
+			<Rect value="116 218 116 28"/>
+			<Align value="72"/>
+			<Caption value="Delete"/>
+		</Child>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Save"/>
+		<Rect value="0 30 120 28"/>
+		<Align value="0"/>
+		<Caption value="Save"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Replay"/>
+		<Rect value="124 30 120 28"/>
+		<Align value="0"/>
+		<Caption value="Replay"/>
+	</Child>
+	<Child type="Widget" lookfeel="MainPanel">
+		<Name value="Set"/>
+		<Rect value="0 60 244 191"/>
+		<Align value="16"/>
+		<Child type="Label" lookfeel="EditorBlack">
+			<Name value="Caption"/>
+			<Rect value="0 0 232 28"/>
+			<Align value="16"/>
+			<Caption value="Set"/>
+			<TextAlign value="1"/>
+		</Child>
+		<Child type="Widget" lookfeel="EditorBlack">
+			<Name value="List"/>
+			<Rect value="0 32 232 115"/>
+			<Align value="16"/>
+		</Child>
+		<Child type="Button" lookfeel="MainButton">
+			<Name value="New"/>
+			<Rect value="0 151 78 28"/>
+			<Align value="68"/>
+			<Caption value="New"/>
+		</Child>
+		<Child type="Button" lookfeel="MainButton">
+			<Name value="Delete"/>
+			<Rect value="78 151 78 28"/>
+			<Align value="64"/>
+			<Caption value="Delete"/>
+		</Child>
+		<Child type="Button" lookfeel="MainButton">
+			<Name value="Copy"/>
+			<Rect value="156 151 78 28"/>
+			<Caption value="Copy"/>
+		</Child>
+	</Child>
+</Layout>
+

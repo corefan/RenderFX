@@ -1,0 +1,64 @@
+Pass
+{
+	State
+	{
+		CullMode NONE
+		DepthMode LESS_EQUAL
+		BlendMode ALPHA_BLEND
+	}
+	
+	Uniform
+	{
+		u_WVP WORLD_VIEW_PROJ_MATRIX
+		u_Opacity FLOAT4
+	}
+	
+	Attribute
+	{
+		i_Position POSITION
+		i_Normal NORMAL
+		i_UV TEXCOORD0
+	}
+	
+	Sampler
+	{
+		BindType SAMPLER
+		Address CLAMP
+		Filename Shadow.png
+	}
+	
+	VertexShader {
+		uniform mat4 u_WVP;
+		uniform vec4 u_Opacity;
+
+		attribute vec4 i_Position;
+		attribute vec3 i_UV;
+
+		varying vec2 o_uv;
+		varying float o_alpha;
+
+		void main()
+		{
+			gl_Position = u_WVP * i_Position;
+				
+			o_uv = i_UV.xy;
+			o_alpha = i_UV.z * u_Opacity.r;
+		}
+	}
+	
+	PixelShader {
+		precision highp float;
+		precision mediump int;
+
+		varying vec2 o_uv;
+		varying float o_alpha;
+
+		uniform sampler2D s_shadow;
+
+		void main()
+		{
+			gl_FragColor = texture2D(s_shadow, o_uv);
+			gl_FragColor.a *= o_alpha * 0.8;
+		}
+	}
+}

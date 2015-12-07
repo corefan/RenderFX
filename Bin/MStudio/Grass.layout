@@ -1,0 +1,34 @@
+<Layout lookfeel="DialogClient">
+	<Name value="Root"/>
+	<Rect value="288 143 349 262"/>
+	<Child type="Widget" lookfeel="DialogCaption">
+		<Name value="Top"/>
+		<Rect value="0 0 342 32"/>
+		<Align value="16"/>
+	</Child>
+	<Child type="Button" lookfeel="Close">
+		<Name value="Close"/>
+		<Rect value="318 4 20 20"/>
+	</Child>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="Caption"/>
+		<Rect value="6 0 307 27"/>
+	</Child>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="T_UVRect"/>
+		<Rect value="6 42 100 27"/>
+	</Child>
+	<Child type="EditBox" lookfeel="MainEditBox">
+		<Name value="UVRect"/>
+		<Rect value="121 42 213 27"/>
+	</Child>
+	<Child type="Widget" lookfeel="MainPanel">
+		<Name value="View"/>
+		<Rect value="8 90 150 150"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="OK"/>
+		<Rect value="201 213 131 28"/>
+	</Child>
+</Layout>
+

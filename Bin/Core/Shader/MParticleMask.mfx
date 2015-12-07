@@ -1,0 +1,82 @@
+Pass 
+{
+	State
+	{
+		FillMode INHERIT
+		CullMode INHERIT
+		DepthMode INHERIT
+		BlendMode INHERIT
+	}
+	
+	Uniform
+	{
+		u_WVP WORLD_VIEW_PROJ_MATRIX
+		u_MaskUV FLOAT4
+	}
+	
+	Attribute
+	{
+		i_Position POSITION
+		i_Color COLOR
+		i_Texcoord0 TEXCOORD0
+	}
+	
+	Sampler
+	{
+		Name u_mapBase
+		Index 0
+		BindType DIFFUSE
+	}
+	
+	Sampler
+	{
+		Name u_mapMask
+		Index 1
+		BindType EXTERN0
+	}
+	
+	VertexShader {
+		precision highp float;
+		precision mediump int;
+
+		uniform mat4 u_WVP;
+
+		varying float4 o_color;
+		varying float2 o_uv;
+
+		attribute float4 i_Position;
+		attribute float4 i_Color;
+		attribute float2 i_Texcoord0;
+
+		void main()
+		{			
+			gl_Position = transform4(i_Position, u_WVP);
+			o_color = i_Color;
+			o_uv = i_Texcoord0;
+		}
+	}
+	
+	PixelShader {
+		precision highp float;
+		precision mediump int;
+		
+		varying float4 o_color;
+		varying float2 o_uv;
+
+		uniform sampler2D u_mapBase;
+		uniform sampler2D u_mapMask;
+
+		uniform float4 u_MaskUV;
+
+		void main()
+		{
+			float2 maskUV;
+			maskUV.x = lerp(u_MaskUV.x, u_MaskUV.z, o_uv.x);
+			maskUV.y = lerp(u_MaskUV.y, u_MaskUV.w, o_uv.y);
+
+			gl_FragColor = o_color * 
+				tex2D(u_mapBase, o_uv) *
+				tex2D(u_mapMask, maskUV).r;
+		}
+	}
+}

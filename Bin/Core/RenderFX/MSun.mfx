@@ -1,0 +1,73 @@
+Pass
+{
+	State
+	{
+		CullMode NONE
+		DepthMode ALWAYS
+		BlendMode ALPHA_BLEND
+	}
+
+	Uniform 
+	{
+		gTransform FLOAT4
+		gSunColor FLOAT4
+		gSunParam FLOAT4
+		
+		u_View VIEW_MATRIX
+		u_Proj PROJ_MATRIX
+	}
+	
+	Attribute
+	{
+		i_Position POSITION
+		i_Texcoord TEXCOORD0
+	}
+	
+	VertexShader {
+		uniform mat4 u_View;
+		uniform mat4 u_Proj;
+
+		uniform float4 gTransform;
+
+		attribute float4 i_Position;
+		attribute float2 i_Texcoord;
+
+		varying float2 o_uv;
+
+		void main()
+		{
+			float4 pos = float4(i_Position.xyz + gTransform.xyz, 1.0);
+			pos = u_View * pos;
+			pos.xy += (i_Texcoord - 0.5) * float2(1.0, -1.0) * gTransform.w;
+			
+			gl_Position = u_Proj * pos;
+			o_uv = i_Texcoord;
+		}
+	}
+	
+	PixelShader {
+		precision highp float;
+		precision mediump int;
+
+		varying float2 o_uv;
+		
+		uniform float4 gSunColor;
+		uniform float4 gSunParam; // x - power, y - lum
+
+		void main()
+		{
+			float2 dir = float2(0.5, 0.5) - o_uv;
+	
+			float k = length(dir);
+			if (k > 0.5)
+				discard;
+	
+			float atten = pow(1 - (k - 0.25) / 0.25, gSunParam.x); 
+	
+			float4 clr = gSunColor;
+			clr.a = min(1, atten * gSunParam.y);
+
+			gl_FragColor = clr;
+		}
+	}
+}

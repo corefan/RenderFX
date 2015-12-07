@@ -1,0 +1,19 @@
+<Layout lookfeel="MainPanel">
+	<Name value="Root"/>
+	<Rect value="35 44 323 484"/>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="Caption"/>
+		<Rect value="0 0 311 28"/>
+		<Align value="16"/>
+	</Child>
+	<Child type="CheckBox" lookfeel="PG_Expand">
+		<Name value="Expand"/>
+		<Rect value="2 5 16 16"/>
+	</Child>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="Client"/>
+		<Rect value="0 29 311 443"/>
+		<Align value="16"/>
+	</Child>
+</Layout>
+

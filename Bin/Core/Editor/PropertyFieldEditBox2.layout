@@ -1,0 +1,31 @@
+<Layout lookfeel="AllWhite">
+	<Name value="Root"/>
+	<Rect value="0 0 1026 814"/>
+	<Color value="0.117647 0.117647 0.117647 0.3"/>
+	<Align value="144"/>
+	<Child type="Widget" lookfeel="MainPanel">
+		<Name value="Dialog"/>
+		<Rect value="367.0625 367 291.875 80"/>
+		<Align value="3"/>
+		<InheritAlpha value="0"/>
+		<Child type="EditBox" lookfeel="MainEditBox">
+			<Name value="x"/>
+			<Rect value="10 0 128 27"/>
+		</Child>
+		<Child type="EditBox" lookfeel="MainEditBox">
+			<Name value="y"/>
+			<Rect value="144 0 128 27"/>
+		</Child>
+		<Child type="Button" lookfeel="MainButton">
+			<Name value="OK"/>
+			<Rect value="38 34 100 28"/>
+			<Caption value="OK"/>
+		</Child>
+		<Child type="Button" lookfeel="MainButton">
+			<Name value="Cancel"/>
+			<Rect value="142 34 100 28"/>
+			<Caption value="Cancel"/>
+		</Child>
+	</Child>
+</Layout>
+

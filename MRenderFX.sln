@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MRenderFX", "MRenderFX\MRenderFX.vcxproj", "{6AC33BC3-5D9E-40AE-A413-8DE7955BB5A0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MRenderFXPlugin", "Tools\MRenderFXPlugin\MRenderFXPlugin.vcxproj", "{9817076C-BAA4-4D7A-BF5D-4FB289E54CAA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DemoEX_RenderFX", "Sample\DemoEX_RenderFX\DemoEX_RenderFX.vcxproj", "{4862F364-5096-4DD8-A116-69DBBDAE9DDF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Profile|Win32 = Profile|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6AC33BC3-5D9E-40AE-A413-8DE7955BB5A0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6AC33BC3-5D9E-40AE-A413-8DE7955BB5A0}.Debug|Win32.Build.0 = Debug|Win32
+		{6AC33BC3-5D9E-40AE-A413-8DE7955BB5A0}.Profile|Win32.ActiveCfg = Profile|Win32
+		{6AC33BC3-5D9E-40AE-A413-8DE7955BB5A0}.Profile|Win32.Build.0 = Profile|Win32
+		{6AC33BC3-5D9E-40AE-A413-8DE7955BB5A0}.Release|Win32.ActiveCfg = Release|Win32
+		{6AC33BC3-5D9E-40AE-A413-8DE7955BB5A0}.Release|Win32.Build.0 = Release|Win32
+		{9817076C-BAA4-4D7A-BF5D-4FB289E54CAA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9817076C-BAA4-4D7A-BF5D-4FB289E54CAA}.Debug|Win32.Build.0 = Debug|Win32
+		{9817076C-BAA4-4D7A-BF5D-4FB289E54CAA}.Profile|Win32.ActiveCfg = Release|Win32
+		{9817076C-BAA4-4D7A-BF5D-4FB289E54CAA}.Profile|Win32.Build.0 = Release|Win32
+		{9817076C-BAA4-4D7A-BF5D-4FB289E54CAA}.Release|Win32.ActiveCfg = Release|Win32
+		{9817076C-BAA4-4D7A-BF5D-4FB289E54CAA}.Release|Win32.Build.0 = Release|Win32
+		{4862F364-5096-4DD8-A116-69DBBDAE9DDF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4862F364-5096-4DD8-A116-69DBBDAE9DDF}.Debug|Win32.Build.0 = Debug|Win32
+		{4862F364-5096-4DD8-A116-69DBBDAE9DDF}.Profile|Win32.ActiveCfg = Release|Win32
+		{4862F364-5096-4DD8-A116-69DBBDAE9DDF}.Profile|Win32.Build.0 = Release|Win32
+		{4862F364-5096-4DD8-A116-69DBBDAE9DDF}.Release|Win32.ActiveCfg = Release|Win32
+		{4862F364-5096-4DD8-A116-69DBBDAE9DDF}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

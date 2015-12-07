@@ -1,0 +1,73 @@
+<Layout lookfeel="MainPanel">
+	<Name value="Root"/>
+	<Rect value="0 614 1026 200"/>
+	<Align value="80"/>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="Tracker"/>
+		<Rect value="0 0 1014 64"/>
+		<Align value="16"/>
+	</Child>
+	<Child type="Label" lookfeel="EditorBlack">
+		<Name value="Widget"/>
+		<Rect value="0 70 100 28"/>
+		<Caption value="Time:"/>
+	</Child>
+	<Child type="Label" lookfeel="EditorBlack">
+		<Name value="Widget"/>
+		<Rect value="0 100 100 28"/>
+		<Caption value="Position:"/>
+	</Child>
+	<Child type="Label" lookfeel="EditorBlack">
+		<Name value="Widget"/>
+		<Rect value="0 130 100 28"/>
+		<Caption value="Rotation:"/>
+	</Child>
+	<Child type="EditBox" lookfeel="MainEditBox">
+		<Name value="Time"/>
+		<Rect value="105 71 255 27"/>
+	</Child>
+	<Child type="EditBox" lookfeel="MainEditBox">
+		<Name value="Position"/>
+		<Rect value="105 101 255 27"/>
+	</Child>
+	<Child type="EditBox" lookfeel="MainEditBox">
+		<Name value="Rotation"/>
+		<Rect value="105 131 255 27"/>
+	</Child>
+	<Child type="Label" lookfeel="EditorBlack">
+		<Name value="Widget"/>
+		<Rect value="0 159 100 28"/>
+		<Caption value="Scale:"/>
+	</Child>
+	<Child type="EditBox" lookfeel="MainEditBox">
+		<Name value="Scale"/>
+		<Rect value="105 160 255 27"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Add"/>
+		<Rect value="380 70 168 28"/>
+		<Caption value="Add"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Remove"/>
+		<Rect value="380 100 168 28"/>
+		<Caption value="Remove"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Modify"/>
+		<Rect value="380 130 168 28"/>
+		<Caption value="Modify"/>
+	</Child>
+	<Child type="Button" lookfeel="Close">
+		<Name value="Close"/>
+		<Rect value="994 168 20 20"/>
+		<Order value="100"/>
+		<Align value="72"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Dump"/>
+		<Rect value="558 70 168 28"/>
+		<Caption value="Dump Current"/>
+	</Child>
+</Layout>
+

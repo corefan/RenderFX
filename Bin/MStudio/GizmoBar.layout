@@ -1,0 +1,35 @@
+<Layout lookfeel="MainPanel">
+	<Name value="Root"/>
+	<Rect value="0 0 982 45"/>
+	<Child type="Widget" lookfeel="Move">
+		<Name value="Move"/>
+		<Rect value="0 1 30 31"/>
+		<Align value="2"/>
+	</Child>
+	<Child type="Widget" lookfeel="Rotate">
+		<Name value="Rotate"/>
+		<Rect value="37 1 28 31"/>
+		<Align value="2"/>
+	</Child>
+	<Child type="Widget" lookfeel="Scale">
+		<Name value="Scale"/>
+		<Rect value="73 0 32 32"/>
+		<Align value="2"/>
+	</Child>
+	<Child type="EditBox" lookfeel="MainEditBox">
+		<Name value="x"/>
+		<Rect value="120 3 128 27"/>
+		<Align value="2"/>
+	</Child>
+	<Child type="EditBox" lookfeel="MainEditBox">
+		<Name value="y"/>
+		<Rect value="252 3 128 27"/>
+		<Align value="2"/>
+	</Child>
+	<Child type="EditBox" lookfeel="MainEditBox">
+		<Name value="z"/>
+		<Rect value="385 3 128 27"/>
+		<Align value="2"/>
+	</Child>
+</Layout>
+

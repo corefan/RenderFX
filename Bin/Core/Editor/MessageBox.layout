@@ -1,0 +1,31 @@
+<Layout lookfeel="DialogClient">
+	<Name value="Root"/>
+	<Rect value="223 196 398 203"/>
+	<Child type="Widget" lookfeel="DialogCaption">
+		<Name value="Caption"/>
+		<Rect value="0 0 391 32"/>
+		<Align value="16"/>
+	</Child>
+	<Child type="Button" lookfeel="Close">
+		<Name value="Close"/>
+		<Rect value="367 4 20 20"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="OK"/>
+		<Rect value="53 141 128 28"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Cancel"/>
+		<Rect value="221 141 128 28"/>
+	</Child>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="Text"/>
+		<Rect value="0 82 391 28"/>
+		<Align value="16"/>
+	</Child>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="Icon"/>
+		<Rect value="8 71 50 50"/>
+	</Child>
+</Layout>
+

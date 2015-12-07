@@ -1,0 +1,74 @@
+Pass
+{
+	State
+	{
+		CullMode BACK
+		DepthMode N_LESS_EQUAL
+		BlendMode ALPHA_BLEND
+	}
+	
+	Uniform
+	{
+		u_WVP WORLD_VIEW_PROJ_MATRIX
+		u_XZTransform FLOAT4
+		u_MinInvSize FLOAT4
+	}
+	
+	Attribute
+	{
+		i_XZ POSITION
+		i_NormalHeight NORMAL
+	}
+	
+	Sampler
+	{
+		Address BORDER
+		BorderColor 0 0 0 0
+	}
+	
+	VertexShader {
+		uniform mat4 u_WVP;
+		uniform vec4 u_XZTransform;
+		uniform vec4 u_MinInvSize;
+
+		attribute vec2 i_XZ;
+		attribute vec4 i_NormalHeight;
+
+		vec2 CalcuUV(vec2 xz) // local space
+		{
+			vec2 uv = (xz - u_MinInvSize.xy) * u_MinInvSize.zw;
+	
+			uv.y = 1.0 - uv.y;
+	
+			return uv;
+		}
+
+		varying vec2 o_uv;
+
+		void main()
+		{
+			float2 xz = i_XZ.xy * u_XZTransform.w + u_XZTransform.xy;
+
+			float4 position = float4(xz.x, i_NormalHeight.w, xz.y, 1);
+
+			gl_Position = u_WVP * position;
+			o_uv = CalcuUV(position.xz);
+		}
+	}
+	
+	PixelShader {
+		precision highp float;
+		precision mediump int;
+
+		varying vec2 o_uv;
+
+		uniform sampler2D s_brush;
+
+		void main()
+		{
+			float r = texture2D(s_brush, o_uv).r;
+
+			gl_FragColor = vec4(0, 0, 1, r);
+		}
+	}
+}

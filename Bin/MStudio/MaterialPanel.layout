@@ -1,0 +1,10 @@
+<Layout lookfeel="MainPanel">
+	<Name value="Root"/>
+	<Rect value="0 0 256 601"/>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="SubMeshList"/>
+		<Rect value="0 0 244 28"/>
+		<Align value="16"/>
+	</Child>
+</Layout>
+

@@ -1,0 +1,32 @@
+Pass
+{
+	State
+	{
+		CullMode NONE
+		DepthMode ALWAYS
+		BlendMode OPACITY
+	}
+
+	Attribute
+	{
+		i_Position POSITION
+	}
+	
+	VertexShader {
+		attribute float4 i_Position;
+
+		void main()
+		{
+			gl_Position = float4(i_Position.xy, 1, 1);
+		}
+	}
+	
+	PixelShader {
+
+		void main()
+		{
+			gl_FragData[0] = float4(0, 0, 0, 1); // normal spec
+			gl_FragData[1] = float4(1, 1, 1, 1); // depth
+		}
+	}
+}

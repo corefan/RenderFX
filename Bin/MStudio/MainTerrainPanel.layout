@@ -1,0 +1,43 @@
+<Layout lookfeel="MainPanel">
+	<Name value="Root"/>
+	<Rect value="0 0 241 814"/>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Height"/>
+		<Rect value="2 35 110 28"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Layer"/>
+		<Rect value="118 35 110 28"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Water"/>
+		<Rect value="2 70 110 28"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Grass"/>
+		<Rect value="118 70 110 28"/>
+	</Child>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="Caption"/>
+		<Rect value="0 0 229 28"/>
+		<Align value="16"/>
+	</Child>
+	<Child type="Button" lookfeel="Back">
+		<Name value="Back"/>
+		<Rect value="4 6 16 16"/>
+	</Child>
+	<Child type="Widget" lookfeel="MainPanel">
+		<Name value="_Panel"/>
+		<Rect value="0 146 229 92"/>
+		<Align value="16"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Create"/>
+		<Rect value="11 158 206 28"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Delete"/>
+		<Rect value="11 197 206 28"/>
+	</Child>
+</Layout>
+

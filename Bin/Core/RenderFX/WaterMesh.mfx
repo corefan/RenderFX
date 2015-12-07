@@ -1,0 +1,80 @@
+Pass
+{
+	State
+	{
+		CullMode INHERIT
+		DepthMode INHERIT
+		BlendMode INHERIT
+	}
+	
+	Uniform
+	{
+		u_Param FLOAT4
+		u_Color FLOAT4
+	
+		u_WVP WORLD_VIEW_PROJ_MATRIX
+		u_FogColor FOG_COLOR
+		u_FogParam FOG_PARAM
+	}
+	
+	Attribute
+	{
+		i_Position POSITION
+		i_Texcoord TEXCOORD0
+	}
+	
+	Sampler
+	{
+		Index 0
+		Name s_Water
+		BindType DIFFUSE
+		Address WRAP
+	}
+	
+	VertexShader {
+		attribute float4 i_Position;
+		attribute float3 i_Normal;
+
+		varying float2 o_uv;
+		varying float4 o_fog;
+
+		uniform mat4 u_WVP;
+		uniform float4 u_Param;
+
+		uniform float4 u_FogColor;
+		uniform float4 u_FogParam;
+
+		void main()
+		{
+			float4 position = i_Position;
+			position.xz *= u_Param.xy;
+			
+			gl_Position = transform4(position, u_WVP);
+
+			o_uv = position.xz * u_Param.x;
+
+			// fog
+			float dt = gl_Position.w;
+			o_fog.rgb = u_FogColor.rgb;
+			o_fog.a = clamp((dt - u_FogParam.x) * u_FogParam.z, 0.0, 1.0);
+		}
+	}
+	
+	PixelShader {
+		precision highp float;
+		precision mediump int;
+		
+		varying float2 o_uv;
+		varying float4 o_fog;
+
+		uniform float4 u_Color;
+
+		uniform sampler2D s_Water;
+
+		void main()
+		{
+			gl_FragColor = tex2D(s_Water, o_uv) * u_Color;
+			gl_FragColor.rgb = gl_FragColor.rgb * (1.0 - o_fog.a) + o_fog.rgb * o_fog.a;
+		}
+	}
+}

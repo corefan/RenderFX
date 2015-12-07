@@ -1,0 +1,9 @@
+#
+#
+Font FontTTF
+{
+	Name	Editor_ÐÂËÎ_16
+	Face	simsun.ttc
+	Size	16
+	Border	0
+}

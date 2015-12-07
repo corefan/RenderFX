@@ -1,0 +1,26 @@
+<Layout lookfeel="DialogClient">
+	<Name value="Root"/>
+	<Rect value="0 0 480 511"/>
+	<Child type="ListBox" lookfeel="MainListBox">
+		<Name value="List"/>
+		<Rect value="0 32 473 428"/>
+		<Align value="16"/>
+		<ItemHeight value="24"/>
+	</Child>
+	<Child type="Widget" lookfeel="DialogCaption">
+		<Name value="Widget"/>
+		<Rect value="0 0 473 32"/>
+		<Align value="16"/>
+	</Child>
+	<Child type="Button" lookfeel="Close">
+		<Name value="Cancel"/>
+		<Rect value="446 3 20 20"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="OK"/>
+		<Rect value="163 467 147 28"/>
+		<Align value="1"/>
+		<Caption value="OK"/>
+	</Child>
+</Layout>
+

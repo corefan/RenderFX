@@ -1,0 +1,34 @@
+<Layout lookfeel="MainPanel">
+	<Name value="Root"/>
+	<Rect value="0 0 256 600"/>
+	<Child type="Label" lookfeel="EditorBlack">
+		<Name value="Caption"/>
+		<Rect value="0 0 244 28"/>
+		<Align value="16"/>
+		<Caption value="NavPath"/>
+		<TextAlign value="1"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Build"/>
+		<Rect value="0 66 244 28"/>
+		<Align value="16"/>
+		<Caption value="Build"/>
+	</Child>
+	<Child type="CheckBox" lookfeel="MainCheckBox">
+		<Name value="Editable"/>
+		<Rect value="2 34 24 23"/>
+		<Checked value="TRUE"/>
+	</Child>
+	<Child type="Label" lookfeel="EditorBlack">
+		<Name value="Widget"/>
+		<Rect value="34 31 128 28"/>
+		<Caption value="Editable"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="LookError"/>
+		<Rect value="0 100 244 28"/>
+		<Align value="16"/>
+		<Caption value="Look Error Edge"/>
+	</Child>
+</Layout>
+

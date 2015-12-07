@@ -1,0 +1,58 @@
+<Layout lookfeel="AllWhite" version="1">
+	<Name value="Root"/>
+	<Rect value="45 213 964 520"/>
+	<Color value="0.117647 0.117647 0.117647 0.3"/>
+	<Child type="Widget" lookfeel="DialogClient">
+		<Name value="Editor"/>
+		<Rect value="2 2 660 480"/>
+		<InheritAlpha value="0"/>
+		<Child type="Button" lookfeel="MainButton">
+			<Name value="OK"/>
+			<Rect value="389 444 128 28"/>
+			<Align value="64"/>
+			<Caption value="OK"/>
+		</Child>
+		<Child type="Button" lookfeel="MainButton">
+			<Name value="Cancel"/>
+			<Rect value="521 444 128 28"/>
+			<Align value="64"/>
+			<Caption value="Cancel"/>
+		</Child>
+		<Child type="Widget" lookfeel="EditorBlack">
+			<Name value="Script"/>
+			<Rect value="0 0 653 441"/>
+			<Align value="16"/>
+		</Child>
+		<Child type="Button" lookfeel="MainButton">
+			<Name value="Compile"/>
+			<Rect value="4 444 128 28"/>
+			<Caption value="Compile"/>
+		</Child>
+	</Child>
+	<Child type="Widget" lookfeel="DialogClient">
+		<Name value="RadCLibs"/>
+		<Rect value="661 2 300 480"/>
+		<InheritAlpha value="0"/>
+		<Child type="Widget" lookfeel="EditorBlack">
+			<Name value="Libs"/>
+			<Rect value="0 0 293 28"/>
+			<Align value="16"/>
+		</Child>
+		<Child type="Widget" lookfeel="EditorBlack">
+			<Name value="Functions"/>
+			<Rect value="0 30 293 442"/>
+			<Align value="16"/>
+		</Child>
+	</Child>
+	<Child type="Widget" lookfeel="DialogClient">
+		<Name value="Status"/>
+		<Rect value="2 482 959 36"/>
+		<InheritAlpha value="0"/>
+		<Child type="Label" lookfeel="EditorBlack">
+			<Name value="Label"/>
+			<Rect value="0 0 952 28"/>
+			<Align value="144"/>
+		</Child>
+	</Child>
+</Layout>
+

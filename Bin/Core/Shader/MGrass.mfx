@@ -1,0 +1,83 @@
+Pass
+{
+	State
+	{
+		CullMode NONE
+		DepthMode N_LESS_EQUAL
+		BlendMode ALPHA_BLEND
+	}
+	
+	Uniform
+	{
+		u_WVP WORLD_VIEW_PROJ_MATRIX
+		u_FogColor FOG_COLOR
+		u_FogParam FOG_PARAM
+	}
+	
+	Attribute
+	{
+		i_Position POSITION
+		i_Color COLOR
+		i_Texcoord TEXCOORD0
+	}
+	
+	Sampler
+	{
+		Index 0
+		BindType DIFFUSE
+		Filter DEFAULT
+		Address CLAMP
+		BorderColor 0 0 0 0
+	}
+	
+	VertexShader {
+		uniform mat4 u_WVP;
+
+		uniform float4 u_FogColor;
+		uniform float4 u_FogParam;
+
+		attribute float4 i_Position;
+		attribute float3 i_Color;
+		attribute float2 i_Texcoord;
+
+		varying float2 o_uv;
+		varying float4 o_color;
+		varying float4 o_fog;
+
+		void main()
+		{
+			gl_Position = transform4(i_Position, u_WVP);
+
+			//
+			o_uv = i_Texcoord.xy;
+
+			//
+			o_color = float4(i_Color.rgb, 1);
+
+			// fog
+			float dt = gl_Position.w;
+			o_fog.rgb = u_FogColor.rgb;
+			o_fog.a = clamp((dt - u_FogParam.x) * u_FogParam.z, 0.0, 1.0);
+		}
+	}
+	
+	PixelShader {
+		precision highp float;
+		precision mediump int;
+
+		varying float2 o_uv;
+		varying float4 o_color;
+		varying float4 o_fog;
+		
+		uniform sampler2D u_baseMap;
+
+		void main()
+		{
+			float4 color = tex2D(u_baseMap, o_uv);
+
+			gl_FragColor.rgb = color.rgb * o_color.rgb;
+			gl_FragColor.a = color.a;
+			gl_FragColor.rgb = gl_FragColor.rgb * (1.0 - o_fog.a) + o_fog.rgb * o_fog.a;
+		}
+	}
+}

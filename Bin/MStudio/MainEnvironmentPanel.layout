@@ -1,0 +1,17 @@
+<Layout lookfeel="MainPanel">
+	<Name value="Root"/>
+	<Rect value="0 0 241 814"/>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="Caption"/>
+		<Rect value="0 0 229 28"/>
+		<Align value="16"/>
+		<Child type="Label" lookfeel="EditorBlack">
+			<Name value="Widget"/>
+			<Rect value="0 0 229 28"/>
+			<Align value="144"/>
+			<Caption value="Environment"/>
+			<TextAlign value="1"/>
+		</Child>
+	</Child>
+</Layout>
+

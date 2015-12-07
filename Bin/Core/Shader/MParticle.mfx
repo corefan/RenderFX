@@ -1,0 +1,65 @@
+Pass 
+{
+	State
+	{
+		FillMode INHERIT
+		CullMode INHERIT
+		DepthMode INHERIT
+		BlendMode INHERIT
+	}
+	
+	Uniform
+	{
+		u_WVP WORLD_VIEW_PROJ_MATRIX
+	}
+	
+	Attribute
+	{
+		i_Position POSITION
+		i_Color COLOR
+		i_Texcoord0 TEXCOORD0
+	}
+	
+	Sampler
+	{
+		Index 0
+		BindType DIFFUSE
+		Address CLAMP
+	}
+	
+	VertexShader {
+		precision highp float;
+		precision mediump int;
+
+		uniform mat4 u_WVP;
+
+		varying float4 o_color;
+		varying float2 o_uv;
+
+		attribute float4 i_Position;
+		attribute float4 i_Color;
+		attribute float2 i_Texcoord0;
+
+		void main()
+		{			
+			gl_Position = transform4(i_Position, u_WVP);
+			o_color = i_Color;
+			o_uv = i_Texcoord0;
+		}
+	}
+	
+	PixelShader {
+		precision highp float;
+		precision mediump int;
+		
+		varying float4 o_color;
+		varying float2 o_uv;
+		
+		uniform sampler2D u_mapBase;
+
+		void main()
+		{
+			gl_FragColor = o_color * tex2D(u_mapBase, o_uv);
+		}
+	}
+}

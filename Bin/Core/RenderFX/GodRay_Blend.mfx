@@ -1,0 +1,58 @@
+Pass
+{
+	State
+	{
+		CullMode NONE
+		DepthMode NONE
+		BlendMode ALPHA_BLEND
+	}
+
+	Uniform
+	{
+		gSunColor FLOAT4
+		gBlendWeight FLOAT4
+	}
+
+	Attribute
+	{
+		i_Position POSITION
+		i_Texcoord TEXCOORD0
+	}
+
+	Sampler
+	{
+		Index 				0 
+		BindType 			NONE
+		Filter 				DEFAULT
+		Address 			CLAMP
+		BorderColor 		0 0 0 0
+	}
+	
+	VertexShader {
+		attribute float4 i_Position;
+		attribute float2 i_Texcoord;
+
+		varying float2 o_uv;
+
+		void main()
+		{
+			gl_Position = float4(i_Position.xy, 0, 1);
+			o_uv = i_Texcoord;
+		}
+	}
+	
+	PixelShader {
+		varying float2 o_uv;
+
+		uniform float4 gSunColor;
+		uniform float4 gBlendWeight;
+		uniform sampler2D gTex_Blured;
+
+		void main()
+		{
+			float w = tex2D(gTex_Blured, o_uv).r;
+
+			gl_FragColor = float4(gSunColor.rgb * gBlendWeight.x, w);
+		}
+	}
+}

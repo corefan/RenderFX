@@ -1,0 +1,50 @@
+<Layout version="1">
+	<Name value="Root"/>
+	<Rect value="0 0 974 32"/>
+	<Child type="Widget" lookfeel="MainMenu">
+		<Name value="Background"/>
+		<Rect value="0 0 974 32"/>
+		<Align value="144"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Open"/>
+		<Rect value="0 2 100 28"/>
+		<Align value="2"/>
+		<Caption value="Open"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Save"/>
+		<Rect value="100 2 100 28"/>
+		<Align value="2"/>
+		<Caption value="Save"/>
+	</Child>
+	<Child type="Label" lookfeel="EditorBlack">
+		<Name value="EditorTile"/>
+		<Rect value="334 2 65 28"/>
+		<Align value="2"/>
+		<Caption value="Editor: "/>
+	</Child>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="EditorBack"/>
+		<Rect value="404 2 180 28"/>
+		<Align value="2"/>
+	</Child>
+	<Child type="Label" lookfeel="EditorBlack">
+		<Name value="CameraTile"/>
+		<Rect value="596 2 70 28"/>
+		<Align value="2"/>
+		<Caption value="Camera:"/>
+	</Child>
+	<Child type="Widget" lookfeel="EditorBlack">
+		<Name value="CameraBack"/>
+		<Rect value="668 2 180 28"/>
+		<Align value="2"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="SavePrefab"/>
+		<Rect value="200 2 128 28"/>
+		<Align value="2"/>
+		<Caption value="Save Prefab"/>
+	</Child>
+</Layout>
+

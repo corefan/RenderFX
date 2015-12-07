@@ -1,0 +1,168 @@
+Pass
+{
+	State
+	{
+		CullMode NONE
+		DepthMode NONE
+		BlendMode OPACITY
+	}
+
+	Uniform
+	{
+		gCornerLeftTop FLOAT4
+		gCornerRightDir FLOAT4
+		gCornerDownDir FLOAT4
+
+		ptMat MATRIX4
+	}
+	
+	Attribute
+	{
+		i_Position POSITION
+		i_Texcoord TEXCOORD0
+	}
+	
+	Sampler
+	{
+		Name				depthMap
+		Index 				0
+		BindType 			NONE
+		Filter 				LINEAR
+		Address 			CLAMP
+		BorderColor 		0 0 0 0
+	}
+
+	Sampler
+	{
+		Name				normalMap
+		Index 				1
+		BindType 			NONE
+		Filter 				LINEAR
+		Address 			CLAMP
+		BorderColor 		0 0 0 0
+	}
+
+	Sampler
+	{
+		Name				randMap
+		Index 				2
+		BindType 			NONE
+		Filter 				LINEAR
+		Address 			CLAMP
+		BorderColor 		0 0 0 0
+	}
+	
+	VertexShader {
+		attribute float4 i_Position;
+		attribute float2 i_Texcoord;
+
+		varying float2 o_uv;
+
+		void main()
+		{
+			gl_Position = float4(i_Position.xy, 0, 1);
+			o_uv = i_Texcoord;
+		}
+	}
+	
+	PixelShader {
+		varying float2 o_uv;
+
+		uniform float4 gCornerLeftTop;
+		uniform float4 gCornerRightDir;
+		uniform float4 gCornerDownDir;
+
+		uniform mat4 ptMat;
+
+		uniform sampler2D depthMap;
+		uniform sampler2D normalMap;
+		uniform sampler2D randMap;
+
+		float3 getPosition(float d, float2 uv)
+		{
+			float4 p = gCornerLeftTop + gCornerRightDir * uv.x + gCornerDownDir * uv.y;
+			return p.xyz * d;
+		}
+
+		void main()
+		{
+			#define MAX_RAND_SAMPLES 14
+
+			float3 RAND_SAMPLES[MAX_RAND_SAMPLES] = {
+				float3(1, 0, 0),
+				float3(	-1, 0, 0),
+				float3(0, 1, 0),
+				float3(0, -1, 0),
+				float3(0, 0, 1),
+				float3(0, 0, -1),
+				normalize(float3(1, 1, 1)),
+				normalize(float3(-1, 1, 1)),
+				normalize(float3(1, -1, 1)),
+				normalize(float3(1, 1, -1)),
+				normalize(float3(-1, -1, 1)),
+				normalize(float3(-1, 1, -1)),
+				normalize(float3(1, -1, -1)),
+				normalize(float3(-1, -1, -1))
+			};
+
+			#define NUM_BASE_SAMPLES 14
+
+			float3 randN = tex2D(randMap, o_uv * 24).xyz * 2.0 - 1.0;
+			float depth = tex2D(depthMap, o_uv).r;
+
+			float3 viewPos = getPosition(depth, o_uv);
+			float3 viewNorm = tex2D(normalMap, o_uv).xyz;
+
+			float occ = 0;
+			float FAR = 20000.0f;
+			float RADIUS = 1;
+			for (int i = 0; i < NUM_BASE_SAMPLES; ++i)
+			{
+				float3 randomDir = reflect(RAND_SAMPLES[i], randN) + viewNorm;
+
+				float4 samplePos = float4(viewPos.xyz + randomDir * RADIUS, 1);
+				float4 nuv = ptMat * samplePos;
+				nuv.xy = nuv.xy / nuv.w * float2(0.5, -0.5) + 0.5;
+
+				float samplerDepth = tex2D(depthMap, nuv.xy).r;
+				float dd = depth - samplerDepth;
+				float zd = FAR * max(dd, 0.0); 
+
+				/*
+				if (zd < 20.0)
+					occ += 1.0 / (1.0 + zd * zd);
+				else
+					occ += 1;
+				*/
+				occ += 1.0 / (1.0 + zd * zd);
+			}
+
+			RADIUS = 0.5;
+			for (int i = 0; i < NUM_BASE_SAMPLES; ++i)
+			{
+				float3 randomDir = reflect(RAND_SAMPLES[i], randN) + viewNorm;
+
+				float4 samplePos = float4(viewPos.xyz + randomDir * RADIUS, 1);
+				float4 nuv = ptMat * samplePos;
+				nuv.xy = nuv.xy / nuv.w * float2(0.5, -0.5) + 0.5;
+
+				float samplerDepth = tex2D(depthMap, nuv.xy).r;
+				float dd = depth - samplerDepth;
+				float zd = FAR * max(dd, 0.0); 
+
+				/*
+				if (zd < 20.0)
+					occ += 1.0 / (1.0 + zd * zd);
+				else
+					occ += 1;
+				*/
+
+				occ += 1.0 / (1.0 + zd * zd);
+			}
+
+			occ = occ / NUM_BASE_SAMPLES / 2;
+
+			gl_FragColor = float4(occ, occ, occ, 1);
+		}
+	}
+}

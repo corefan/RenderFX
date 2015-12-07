@@ -1,0 +1,63 @@
+Pass
+{
+	State
+	{
+		CullMode NONE
+		DepthMode NONE
+		BlendMode OPACITY
+	}
+
+	Uniform
+	{
+		gUVOffsets FLOAT4 [count 9]
+	}
+	
+	Attribute
+	{
+		i_Position POSITION
+		i_Texcoord TEXCOORD0
+	}
+	
+	Sampler
+	{
+		Index 0 
+		BindType NONE
+		Filter LINEAR
+		Address CLAMP
+		BorderColor 0 0 0 0
+	}
+	
+	VertexShader {
+		attribute float4 i_Position;
+		attribute float2 i_Texcoord;
+
+		varying float2 o_uv;
+
+		void main()
+		{
+			gl_Position = float4(i_Position.xy, 0, 1);
+			o_uv = i_Texcoord;
+		}
+	}
+	
+	PixelShader {
+		varying float2 o_uv;
+
+		uniform float4 gUVOffsets[9];
+
+		uniform sampler2D s0;
+
+		void main()
+		{
+			float4 color = float4(0, 0, 0, 0);
+			for (int i = 0; i < 9; ++i)
+			{
+				color += tex2D(s0, o_uv + gUVOffsets[i].xy);
+			}
+			
+			color /= 9.0;
+
+			gl_FragColor = color;
+		}
+	}
+}

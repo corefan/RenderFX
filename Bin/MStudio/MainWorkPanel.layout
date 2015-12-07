@@ -1,0 +1,26 @@
+<Layout>
+	<Name value="Root"/>
+	<Rect value="0 0 241 814"/>
+	<Child type="Widget" lookfeel="MainPanel">
+		<Name value="Panel"/>
+		<Rect value="0 0 241 814"/>
+		<Align value="144"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Object"/>
+		<Rect value="7 16 110 28"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Property"/>
+		<Rect value="123 16 110 28"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Terrain"/>
+		<Rect value="7 52 110 28"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Environment"/>
+		<Rect value="123 52 110 28"/>
+	</Child>
+</Layout>
+

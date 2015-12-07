@@ -1,0 +1,62 @@
+ShaderFX Core.Base
+{
+	Filename Shader/MBase.mfx
+}
+
+ShaderFX Core.BaseSkined
+{
+	Filename Shader/MBase.mfx
+	Macro {
+		#define D_SKINED
+	}
+}
+
+ShaderFX Core.LightingColor
+{
+	Filename Shader/MLightingColor.mfx
+}
+
+ShaderFX Core.LightingMap
+{
+	Filename Shader/MLightingMap.mfx
+}
+
+ShaderFX Core.DirLighting
+{
+	Filename Shader/MLighting.mfx
+	
+	Macro {
+		#define DIRECTION
+	}
+}
+
+ShaderFX Core.DirLightingSkined
+{
+	Filename Shader/MLighting.mfx
+	
+	Macro {
+		#define D_SKINED
+		#define DIRECTION
+	}
+}
+
+
+ShaderFX Core.PointLightingSkined
+{
+	Filename Shader/MLighting.mfx
+	
+	Macro {
+		#define D_SKINED
+		#define POINT
+	}
+}
+
+ShaderFX Core.SpotLightingSkined
+{
+	Filename Shader/MLighting.mfx
+	
+	Macro {
+		#define D_SKINED
+		#define SPOT
+	}
+}

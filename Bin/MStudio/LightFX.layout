@@ -1,0 +1,24 @@
+<Layout lookfeel="MainPanel">
+	<Name value="Root"/>
+	<Rect value="0 0 256 600"/>
+	<Child type="Label" lookfeel="EditorBlack">
+		<Name value="Caption"/>
+		<Rect value="0 0 244 28"/>
+		<Align value="16"/>
+		<Caption value="LightFX"/>
+		<TextAlign value="1"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Lighting"/>
+		<Rect value="0 31 244 28"/>
+		<Align value="16"/>
+		<Caption value="Lighting"/>
+	</Child>
+	<Child type="Button" lookfeel="MainButton">
+		<Name value="Reset"/>
+		<Rect value="0 61 244 28"/>
+		<Align value="16"/>
+		<Caption value="Reset"/>
+	</Child>
+</Layout>
+

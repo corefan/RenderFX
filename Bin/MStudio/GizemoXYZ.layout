@@ -1,0 +1,20 @@
+<Layout lookfeel="EditorBlack">
+	<Name value="Root"/>
+	<Rect value="0 0 480 30"/>
+	<Child type="EditBox" lookfeel="MainEditBox">
+		<Name value="x"/>
+		<Rect value="5 1 128 27"/>
+		<Align value="2"/>
+	</Child>
+	<Child type="EditBox" lookfeel="MainEditBox">
+		<Name value="y"/>
+		<Rect value="135 1 128 27"/>
+		<Align value="2"/>
+	</Child>
+	<Child type="EditBox" lookfeel="MainEditBox">
+		<Name value="z"/>
+		<Rect value="265 1 128 27"/>
+		<Align value="2"/>
+	</Child>
+</Layout>
+

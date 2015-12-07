@@ -1,0 +1,100 @@
+Pass
+{
+	State
+	{
+		CullMode NONE
+		DepthMode NONE
+		BlendMode ALPHA_BLEND
+	}
+
+	Uniform
+	{
+		gTransform FLOAT4
+		gSizeParam FLOAT4
+		gAspect FLOAT4
+		gStarLum FLOAT4
+
+		gMatVP VIEW_PROJ_MATRIX
+		gTime TIME
+	}
+	
+	Attribute
+	{
+		i_Position POSITION
+		i_Texcoord TEXCOORD0
+	}
+	
+	Sampler
+	{
+		Index 0
+		BindType NONE
+		Filter DEFAULT
+		Address WRAP
+		BorderColor 0 0 0 0
+	}
+	
+	VertexShader {
+		attribute float4 i_Position;
+		attribute float3 i_Texcoord;
+
+		varying float4 o_color;
+		varying float2 o_uv;
+
+		uniform float4 gTransform;
+		uniform float4 gSizeParam;
+		uniform float4 gAspect;
+		uniform float4 gStarLum;
+
+		uniform mat4 gMatVP;
+		uniform float4 gTime;
+
+		void main()
+		{
+			float mag_scale = gSizeParam.x;
+			float mag0_size = gSizeParam.y;
+			float min_size = gSizeParam.z;
+			float max_size = gSizeParam.w;
+
+			float4 in_color = float4(1.0, 1.0, 1.0, 1.0);
+    
+			float3 position = i_Position.xyz * gTransform.w + gTransform.xyz;
+			gl_Position = gMatVP * float4(position, 1);
+			o_uv = i_Texcoord.xy;
+    
+			float magnitude = i_Texcoord.z;
+			float size = exp(mag_scale * magnitude) * mag0_size;
+
+			// Fade below minSize.
+			float fade = clamp(size / min_size, 0.0, 1.0);
+			o_color = float4(in_color.rgb, fade * fade);
+
+			// clamp size to range.
+			size = clamp(size, min_size, max_size);
+
+			// Splat the billboard on the screen.
+			gl_Position.xy += gl_Position.ww * i_Texcoord.xy * float2(size, size * gAspect.x);
+
+			float lum = sin(gTime.x + i_Position.w) * 0.5 + 0.5;
+			o_color.a *= gStarLum * lum;
+		}
+	}
+	
+	PixelShader {
+		precision highp float;
+		precision mediump int;
+
+		varying float4 o_color;
+		varying float2 o_uv;
+
+		void main()
+		{
+			float4 rclr = o_color;
+			float sqlen = dot(o_uv, o_uv);
+
+			// A gaussian bell of sorts.
+			rclr.a *= 1.5 * exp(-(sqlen * 8));
+    
+			gl_FragColor = rclr;
+		}
+	}
+}

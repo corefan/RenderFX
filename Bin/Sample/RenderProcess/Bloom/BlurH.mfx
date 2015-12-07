@@ -1,0 +1,64 @@
+Pass
+{
+	State
+	{
+		CullMode NONE
+		DepthCheck NONE
+		BlendMode OPACITY
+	}
+	
+	Attribute
+	{
+		i_Position POSITION
+		i_Texcoord TEXCOORD0
+	}
+	
+	Uniform
+	{
+		u_InvMapSize FLOAT4
+	}
+	
+	Sampler
+	{
+	}
+	
+	VertexShader {
+		attribute float4 i_Position;
+		attribute float2 i_Texcoord;
+
+		varying float2 o_uv;
+
+		void main()
+		{
+			gl_Position = float4(i_Position.xy, 0, 1);
+			o_uv = i_Texcoord;
+		}
+	}
+	
+	PixelShader {
+		precision highp float;
+		precision mediump int;
+
+		varying float2 o_uv;
+
+		uniform float4 u_InvMapSize;
+		uniform sampler2D u_BaseMap;
+
+		void main()
+		{
+			float4 color = float4(0, 0, 0, 0);
+
+			color += texture2D(u_BaseMap, o_uv - float2(u_InvMapSize.x * 3, 0));
+			color += texture2D(u_BaseMap, o_uv - float2(u_InvMapSize.x * 2, 0));
+			color += texture2D(u_BaseMap, o_uv - float2(u_InvMapSize.x * 1, 0));
+			color += texture2D(u_BaseMap, o_uv);
+			color += texture2D(u_BaseMap, o_uv + float2(u_InvMapSize.x * 1, 0));
+			color += texture2D(u_BaseMap, o_uv + float2(u_InvMapSize.x * 2, 0));
+			color += texture2D(u_BaseMap, o_uv + float2(u_InvMapSize.x * 3, 0));
+
+			color /= 5;
+
+			gl_FragColor = color;
+		}
+	}
+}

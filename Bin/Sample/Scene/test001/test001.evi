@@ -1,0 +1,12 @@
+MainLightRotation 60 -45 0
+MainLightAmbient 0.5 0.5 0.5
+MainLightDiffuse 1 1 1
+MainLightSpecular 0 0 0
+MainLightStrength 1
+FogStart 5000
+FogEnd 20000
+FogColor 1 1 1
+GrassWaveDir 1 0
+GrassWaveSpeed 0.8
+GrassWaveStrength 0.15
+GrassVisibleRadius 2500

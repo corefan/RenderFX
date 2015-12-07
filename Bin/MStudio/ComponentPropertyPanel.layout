@@ -1,0 +1,12 @@
+<Layout lookfeel="MainPanel">
+	<Name value="Root"/>
+	<Rect value="0 0 256 600"/>
+	<Child type="Label" lookfeel="EditorBlack">
+		<Name value="Top"/>
+		<Rect value="0 0 244 28"/>
+		<Align value="16"/>
+		<Caption value="Property"/>
+		<TextAlign value="1"/>
+	</Child>
+</Layout>
+

@@ -1,0 +1,65 @@
+Pass
+{
+	State
+	{
+		CullMode NONE
+		DepthMode N_LESS_EQUAL
+		BlendMode ALPHA_BLEND
+	}
+	
+	Uniform
+	{
+		u_Param FLOAT4
+	
+		u_WVP WORLD_VIEW_PROJ_MATRIX
+	}
+	
+	Attribute
+	{
+		i_Position POSITION
+		i_Texcoord TEXCOORD0
+	}
+	
+	Sampler
+	{
+		Index 				0 
+		BindType 			SAMPLER
+		Filter 				DEFAULT
+		Address 			CLAMP
+		BorderColor 		0 0 0 0
+		Filename			Snow.png
+	}
+	
+	VertexShader {
+		precision highp float;
+		precision mediump int;
+
+		uniform mat4 u_WVP;
+			
+		attribute float4 i_Position;		
+		attribute float3 i_Texcoord;
+
+		varying float3 o_uv;
+
+		void main()
+		{			
+			gl_Position = u_WVP * i_Position;
+			o_uv = i_Texcoord;
+		}
+	}
+	
+	PixelShader {
+		precision highp float;
+		precision mediump int;
+		
+		uniform sampler2D u_mapBase;
+
+		varying float3 o_uv;
+
+		void main()
+		{
+			gl_FragColor = tex2D(u_mapBase, o_uv.xy);
+			gl_FragColor.a *= o_uv.z;
+		}
+	}
+}

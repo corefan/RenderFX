@@ -1,0 +1,109 @@
+Pass
+{
+	State
+	{
+		CullMode NONE
+		DepthMode NONE
+		BlendMode OPACITY
+	}
+
+	Uniform
+	{
+		gParam FLOAT4
+		gInvTexSize FLOAT4
+	}
+	
+	Attribute
+	{
+		i_Position POSITION
+		i_Texcoord TEXCOORD0
+	}
+	
+	Sampler
+	{
+		Index 0 
+		BindType NONE
+		Filter POINT
+		Address CLAMP
+		BorderColor 0 0 0 0
+	}
+	
+	VertexShader {
+		attribute float4 i_Position;
+		attribute float2 i_Texcoord;
+
+		varying float2 o_uv;
+
+		void main()
+		{
+			gl_Position = float4(i_Position.xy, 0, 1);
+			o_uv = i_Texcoord;
+		}
+	}
+	
+	PixelShader {
+		varying float2 o_uv;
+
+		uniform float4 gParam; // x - FXAA_REDUCE_MIN, y - FXAA_REDUCE_MUL, z - FXAA_SPAN_MAX
+		uniform float4 gInvTexSize;
+
+		uniform sampler2D s0;
+
+		float texL(sampler2D tex, float2 uv)
+		{
+			float3 luma = float3(0.299, 0.587, 0.114);
+			float3 color = tex2D(tex, uv).rgb;
+
+			return dot(color, luma);
+		}
+
+		float3 fxaa()
+		{
+			#define FXAA_REDUCE_MIN (1.0 / 128.0)
+			#define FXAA_REDUCE_MUL (1.0 / 8.0)
+			#define FXAA_SPAN_MAX (8.0)
+
+			//float FXAA_REDUCE_MIN = gParam.x;
+			//float FXAA_REDUCE_MUL = gParam.y;
+			//float FXAA_SPAN_MAX = gParam.z;
+
+			float lumaNW = texL(s0, o_uv + float2(-1, 0) * gInvTexSize.xy);
+			float lumaNE = texL(s0, o_uv + float2( 1, 0) * gInvTexSize.xy);
+			float lumaSW = texL(s0, o_uv + float2( 0,-1) * gInvTexSize.xy);
+			float lumaSE = texL(s0, o_uv + float2( 0, 1) * gInvTexSize.xy);
+			float lumaM = texL(s0, o_uv);
+
+			float lumaMin = min(lumaM, min(min(lumaNW, lumaNE), min(lumaSW, lumaSE)));
+			float lumaMax = max(lumaM, max(max(lumaNW, lumaNE), max(lumaSW, lumaSE)));
+
+			float2 dir;
+			dir.x = -((lumaNW + lumaNE) - (lumaSW + lumaSE));
+			dir.y =	 ((lumaNW + lumaSW) - (lumaNE + lumaSE));
+
+			float dirReduce = max((lumaNW + lumaNE + lumaSW + lumaSE) * (0.25 * FXAA_REDUCE_MUL), FXAA_REDUCE_MIN);
+			float rcpDirMin = 1.0 / (min(abs(dir.x), abs(dir.y)) + dirReduce);
+			dir = min(float2( FXAA_SPAN_MAX,  FXAA_SPAN_MAX), 
+				  max(float2(-FXAA_SPAN_MAX, -FXAA_SPAN_MAX),
+				  dir * rcpDirMin)) * gInvTexSize.xy;
+
+			float3 rgbA = (1.0/2.0) * (
+				tex2D(s0, o_uv + dir * (1.0/3.0 - 0.5)).rgb +
+				tex2D(s0, o_uv + dir * (2.0/3.0 - 0.5)).rgb);
+			float3 rgbB = (1.0/2.0) * rgbA + (1.0/4.0) * (
+				tex2D(s0, o_uv + dir * (0.0/3.0 - 0.5)).rgb +
+				tex2D(s0, o_uv + dir * (3.0/3.0 - 0.5)).rgb);
+
+			float lumaB = dot(rgbB, luma);
+			if (lumaB < lumaMin || lumaB > lumaMax)
+				return rgbA;
+
+			return rgbB;
+		}
+
+		void main()
+		{
+			gl_FragColor.rgb = fxaa();
+			gl_FragColor.a = 1.0;
+		}
+	}
+}

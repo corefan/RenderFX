@@ -1,0 +1,119 @@
+Pass
+{
+	State
+	{
+		CullMode INHERIT
+		DepthMode INHERIT
+		BlendMode INHERIT
+	}
+	
+	Uniform
+	{
+		u_WVP WORLD_VIEW_PROJ_MATRIX
+		
+		u_FogColor FOG_COLOR
+		u_FogParam FOG_PARAM
+		
+		u_ShaderState SHADER_STATE
+	}
+	
+	Attribute
+	{
+		i_Position POSITION
+		i_UV TEXCOORD0
+		i_LUV TEXCOORD1
+	}
+	
+	Sampler
+	{
+		Name u_baseMap
+		Index 0
+		BindType DIFFUSE
+		Filter DEFAULT
+		Address WRAP
+		BorderColor 0 0 0 0
+	}
+	
+	Sampler
+	{
+		Name u_lightingMap
+		Index 1
+		BindType LIGHTING_MAP
+		Filter DEFAULT
+		Address CLAMP
+		BorderColor 0 0 0 0
+	}
+	
+	VertexShader {
+		precision highp float;
+		precision mediump int;
+
+		uniform mat4 u_WVP;
+
+		uniform float4 u_FogColor;
+		uniform float4 u_FogParam;
+
+		attribute float4 i_Position;
+		attribute float2 i_UV;
+		attribute float2 i_LUV;
+
+		varying float2 o_uv;
+		varying float2 o_luv;
+		varying float4 o_fog;
+			
+		void main()
+		{
+			gl_Position = transform4(i_Position, u_WVP);
+			o_uv = i_UV;
+			o_luv = i_LUV;
+
+			// fog
+			float dt = gl_Position.w;
+			o_fog.rgb = u_FogColor.rgb;
+			o_fog.a = clamp((dt - u_FogParam.x) * u_FogParam.z, 0.0, 1.0);
+		}
+	}
+	
+	PixelShader {
+		precision highp float;
+		precision mediump int;
+
+		varying float2 o_uv;
+		varying float2 o_luv;
+		varying float4 o_fog;
+		
+		uniform float4 u_ShaderState;
+		uniform sampler2D u_baseMap;
+		uniform sampler2D u_lightingMap;
+
+		float4 rgbe_to_rgba(float4 color)
+		{
+			float4 c;
+
+			float e = color.a * 2.0 + 1.0;
+			c.r = color.r * e;
+			c.g = color.g * e;
+			c.b = color.b * e;
+			c.a = 1.0;
+
+			return c;
+		}
+
+		void main()
+		{
+			float4 baseColor = tex2D(u_baseMap, o_uv);
+			float4 diffuseColor = rgbe_to_rgba(tex2D(u_lightingMap, o_luv));
+
+			// Alpha Test
+			if (u_ShaderState.x > 0.5)
+			{
+				if (baseColor.a < 0.5)
+					discard;
+			}
+
+			gl_FragColor.rgb = baseColor.rgb * diffuseColor.rgb;
+			gl_FragColor.rgb = gl_FragColor.rgb * (1.0 - o_fog.a) + o_fog.rgb * o_fog.a;
+			gl_FragColor.a = baseColor.a;
+		}
+	}
+}
